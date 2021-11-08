@@ -5,4 +5,10 @@ Rails.application.routes.draw do
   resources :templates
   resources :sessions
   resources :users
+
+  get 'login', to: 'sessions#new'
+  post 'login', to: 'sessions#create'
+  get 'logout', to: 'sessions#destroy'
+  get 'welcome', to: 'sessions#welcome'
+
 end
