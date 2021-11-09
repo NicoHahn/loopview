@@ -24,3 +24,23 @@ html, body {
 .navbar {
   background-color: rgb(183, 255, 226) !important;
 }
+
+.table-container {
+  margin: 100px auto;
+  width: 80% !important;
+}
+
+table tbody tr:last-child{
+  border-bottom-style: hidden;
+}
+
+table {
+  background-color: #96e9ff;
+  tbody tr {
+    border-color: #212529;
+    :hover {
+      cursor: pointer;
+    }
+  }
+}
+
