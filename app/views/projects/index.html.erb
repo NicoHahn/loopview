@@ -1,2 +1,21 @@
-<h1>Projects#index</h1>
-<p>Find me in app/views/projects/index.html.erb</p>
+  <div class="button-div">
+    <%= button_to "Projekt erstellen", new_template_path, method: :get, class: "btn btn-info float-end" %>
+  </div>
+<div class="table-container">
+  <table id="projects-table" class="table table-hover shadow-lg rounded">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Titel</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Ein Projekt</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+

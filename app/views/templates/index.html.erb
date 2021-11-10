@@ -1,5 +1,8 @@
-<div class="table-container shadow-lg bg-body rounded">
-  <table class="table table-hover rounded">
+<div class="button-div">
+  <%= button_to "Template erstellen", new_template_path, method: :get, class: "btn btn-info float-end mt-5" %>
+</div>
+<div class="table-container">
+  <table id="templates-table" class="table table-hover shadow-lg rounded">
     <thead>
       <tr>
         <th scope="col">#</th>

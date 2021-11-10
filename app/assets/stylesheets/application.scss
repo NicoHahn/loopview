@@ -34,6 +34,10 @@ table tbody tr:last-child{
   border-bottom-style: hidden;
 }
 
+table.dataTable {
+  border-collapse: collapse !important;
+}
+
 table {
   background-color: #96e9ff;
   tbody tr {
@@ -42,5 +46,14 @@ table {
       cursor: pointer;
     }
   }
+  thead tr {
+    background-color: #00b7ff;
+    border-color: black;
+    border-bottom: 2px solid !important;
+  }
 }
 
+
+.button-div {
+  width: 90% !important;
+}
