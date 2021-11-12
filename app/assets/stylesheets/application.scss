@@ -39,7 +39,9 @@ table.dataTable {
 }
 
 table {
+  margin-top: 15px !important;
   background-color: #96e9ff;
+  overflow: hidden;
   tbody tr {
     border-color: #212529;
     :hover {
@@ -53,6 +55,14 @@ table {
   }
 }
 
+table#projects-table,
+table#templates-table {
+  margin-top: 15px !important;
+}
+
+.rounded-custom {
+  border-radius: 0.35rem !important;
+}
 
 .button-div {
   width: 90% !important;
