@@ -1,5 +1,5 @@
 
-<%= form_tag '/login', class: "d-flex flex-column" do %>
+<%= form_tag '/login', class: "d-flex flex-column login_form" do %>
   <div class="form-floating mb-3">
     <%= text_field_tag :email, nil, class: "form-control", id: "floatingInput", placeholder: "name@example.com" %>
     <%= label_tag :email %>
@@ -9,7 +9,7 @@
     <%= label_tag :password %>
   </div>
 
-  <%= submit_tag "Login" %>
+  <%= submit_tag "Login", class: "submit_login" %>
 <%end%>
 
 
