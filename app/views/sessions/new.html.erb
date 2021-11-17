@@ -1,2 +1,15 @@
-<h1>Sessions#new</h1>
-<p>Find me in app/views/sessions/new.html.erb</p>
+
+<%= form_tag '/login', class: "d-flex flex-column" do %>
+  <div class="form-floating mb-3">
+    <%= text_field_tag :email, nil, class: "form-control", id: "floatingInput", placeholder: "name@example.com" %>
+    <%= label_tag :email %>
+  </div>
+  <div class="form-floating mb-3">
+    <%= password_field_tag :password, nil, class: "fas fa-lock form-control", id: "floatingPassword", placeholder: "password" %>
+    <%= label_tag :password %>
+  </div>
+
+  <%= submit_tag "Login" %>
+<%end%>
+
+
