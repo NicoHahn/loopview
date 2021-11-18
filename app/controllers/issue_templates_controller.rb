@@ -1,4 +1,4 @@
-class TemplatesController < ApplicationController
+class IssueTemplatesController < ApplicationController
   def index
     @templates = Template.all
   end

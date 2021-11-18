@@ -1,5 +1,5 @@
 $(document).on("turbolinks:load", function () {
-    $('#templates-table, #projects-table, #example').DataTable( {
+    $('#issue_templates-table, #projects-table, #example').DataTable( {
         "language": {
             "zeroRecords": "Es wurden keine Einträge gefunden!",
         },
