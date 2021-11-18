@@ -5,17 +5,22 @@ class JiraConnector
   # generate api token:
   # https://id.atlassian.com/manage/api-tokens
 
-  def self.send_request(type, url, issue_id=nil, user, params=nil)
+  def self.import_current_projects
+    projects_response = send_request(:get, "https://loopview.atlassian.net/rest/api/3/project")
+    Project.create_missing_projects(projects_response)
+  end
+
+  def self.send_request(type, url, issue_id=nil, user=nil, params=nil)
     case type
-    when get
+    when :get
       url = URI("https://loopview.atlassian.net/rest/api/3/issue/#{issue_id}")
       https = Net::HTTP.new(url.host, url.port)
       https.use_ssl = true
       request = Net::HTTP::Get.new(url)
       request["Authorization"] = get_authorization_header_value(user)
       response = https.request(request)
-      puts JSON.parse(response.body)
-    when post
+      #puts JSON.parse(response.body)
+    when :post
       data = build_data(params)
       url = URI("https://loopview.atlassian.net/rest/api/3/issue")
       https = Net::HTTP.new(url.host, url.port)
@@ -25,7 +30,7 @@ class JiraConnector
       request["Content-Type"] = "application/json"
       request.body = data.to_json
       response = https.request(request)
-      puts JSON.parse(response.body)
+      #puts JSON.parse(response.body)
     end
   end
 
