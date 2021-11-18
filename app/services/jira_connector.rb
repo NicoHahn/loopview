@@ -6,11 +6,11 @@ class JiraConnector
   # https://id.atlassian.com/manage/api-tokens
 
   def self.import_current_projects
-    projects_response = send_request(:get, "https://loopview.atlassian.net/rest/api/3/project")
+    projects_response = send_request(:get, "https://loopview.atlassian.net/rest/api/3/project", current_user)
     Project.create_missing_projects(projects_response)
   end
 
-  def self.send_request(type, url, issue_id=nil, user=nil, params=nil)
+  def self.send_request(type, url, user, issue_id=nil, params=nil)
     case type
     when :get
       url = URI("https://loopview.atlassian.net/rest/api/3/issue/#{issue_id}")
@@ -19,7 +19,7 @@ class JiraConnector
       request = Net::HTTP::Get.new(url)
       request["Authorization"] = get_authorization_header_value(user)
       response = https.request(request)
-      #puts JSON.parse(response.body)
+      JSON.parse(response.body)
     when :post
       data = build_data(params)
       url = URI("https://loopview.atlassian.net/rest/api/3/issue")
@@ -30,7 +30,7 @@ class JiraConnector
       request["Content-Type"] = "application/json"
       request.body = data.to_json
       response = https.request(request)
-      #puts JSON.parse(response.body)
+      JSON.parse(response.body)
     end
   end
 

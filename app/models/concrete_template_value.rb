@@ -1,0 +1,5 @@
+class ConcreteTemplateValue < ApplicationRecord
+
+
+
+end
