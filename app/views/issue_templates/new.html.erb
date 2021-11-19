@@ -1,2 +1,17 @@
-<h1>Templates#new</h1>
-<p>Find me in app/views/templates/new.html.erb</p>
+<%= form_for @issue_template do |f| %>
+
+ <div class="container rounded-custom shadow">
+   <h1>Vorlage erstellen</h1>
+  <%= f.select(:issue_template_attributes, IssueTemplateAttribute::ATTRIBUTE_TYPES.map { |ita| [ita, ita] }, include_blank: "Select attribute type", class: 'form-control') %>
+  <button type="button" class="add_attribute btn btn-info float-end" data-id="<%= f.object.id %>">Hinzufügen</button>
+ </div>
+
+ <div class="container rounded-custom shadow">
+  <%= f.label :title %>
+  <%= f.text_field :title, class: "", required: true %>
+
+  <%= f.submit "Speichern", class: "btn btn-info float-end"%>
+ </div>
+
+<%end%>
+
