@@ -1,17 +1,20 @@
+<h1>Vorlage erstellen</h1>
+
 <%= form_for @issue_template do |f| %>
 
- <div class="container rounded-custom shadow">
-   <h1>Vorlage erstellen</h1>
-  <%= f.select(:issue_template_attributes, IssueTemplateAttribute::ATTRIBUTE_TYPES.map { |ita| [ita, ita] }, include_blank: "Select attribute type", class: 'form-control') %>
-  <button type="button" class="add_attribute btn btn-info float-end" data-id="<%= f.object.id %>">Hinzufügen</button>
- </div>
+  <div class="container rounded-custom shadow mh-70">
+    <%= f.select(:issue_template_attributes, IssueTemplateAttribute::ATTRIBUTE_TYPES.map { |ita| [I18n.t('template_type_'+ita.to_s), ita] }, {include_blank: "Feld auswählen"}, {class: 'form-control mt-3'}) %>
+    <button type="button" class="add_attribute btn btn-info float-end mt-3" data-id="<%= f.object.id %>">
+      <i class="fas fa-check"></i>
+      Hinzufügen
+    </button>
+  </div>
 
- <div class="container rounded-custom shadow">
-  <%= f.label :title %>
-  <%= f.text_field :title, class: "", required: true %>
-
-  <%= f.submit "Speichern", class: "btn btn-info float-end"%>
- </div>
+  <div class="container rounded-custom shadow">
+    <%= f.label :title %>
+    <%= f.text_field :title, class: "form-control", required: true %>
+    <%= f.submit "Speichern", class: "btn btn-info float-end mt-3"%>
+  </div>
 
 <%end%>
 

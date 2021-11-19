@@ -37,6 +37,10 @@ html, body {
   min-height: 130px;
 }
 
+.mh-70 {
+  min-height: 70px !important;
+}
+
 table tbody tr:last-child{
   border-bottom-style: hidden;
 }
