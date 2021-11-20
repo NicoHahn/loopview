@@ -13,7 +13,7 @@ class JiraConnector
   def self.send_request(type, url, user, issue_id=nil, params=nil)
     case type
     when :get
-      url = URI("https://loopview.atlassian.net/rest/api/3/issue/#{issue_id}")
+      url = URI(url)
       https = Net::HTTP.new(url.host, url.port)
       https.use_ssl = true
       request = Net::HTTP::Get.new(url)
@@ -34,14 +34,23 @@ class JiraConnector
     end
   end
 
+  def self.check_for_project(project_key, user)
+    response = send_request(:get, "https://loopview.atlassian.net/rest/api/3/project/#{project_key}", user)
+    if response["errorMessages"] && response["errorMessages"].any?
+      [nil, false]
+    else
+      [response["id"], true]
+    end
+  end
+
   private
 
   def build_data(params)
     # build data structure as json for request body
   end
 
-  def get_authorization_header_value(user)
-    "Basic #{Base64.encode64("#{user.email}:#{user.api_key}")}"
+  def self.get_authorization_header_value(user)
+    "Basic #{Base64.encode64("#{user.email}:#{user.api_key}")}".gsub("\n", "\\\\n")
   end
 
 end

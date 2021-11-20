@@ -1,2 +1,18 @@
-<h1>Projects#new</h1>
-<p>Find me in app/views/projects/new.html.erb</p>
+<h1>Projekt erstellen</h1>
+
+<%= form_for @project do |f| %>
+
+  <div class="container rounded-custom shadow">
+
+    <%= f.label :title %>
+    <%= f.text_field :external_key, class: "form-control", required: true%>
+
+    <%= button_tag(type: 'submit', class: "btn btn-info float-end mt-3") do %>
+      <span id="loader" class="spinner-border spinner-border-sm" role="status" style="display:none;"></span>
+      <i id="prev_loader" class="fas fa-save"></i>
+      Speichern
+    <% end %>
+  </div>
+
+<% end %>
+

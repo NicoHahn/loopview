@@ -1,9 +1,14 @@
 class ProjectsController < ApplicationController
+
+  before_action :set_project, except: [:new, :create, :index]
+
+
   def index
     @projects = Project.all
   end
 
   def new
+    @project = Project.new
   end
 
   def show
@@ -11,6 +16,14 @@ class ProjectsController < ApplicationController
   end
 
   def create
+
+    project_id, existing = JiraConnector.check_for_project(params[:project][:external_key], current_user)
+    if Project.find_by(external_id: project_id, external_key: params[:project][:external_key]).nil? && existing
+      @project = Project.create(params.require(:project).permit(:external_key))
+      if @project
+        redirect_to edit_project_path(id: @project.id)
+      end
+    end
   end
 
   def edit
@@ -21,4 +34,11 @@ class ProjectsController < ApplicationController
 
   def destroy
   end
+
+  private
+
+  def set_project
+    @porject = Project.find_by!(id: params[:id]) unless params[:id].blank?
+  end
+
 end

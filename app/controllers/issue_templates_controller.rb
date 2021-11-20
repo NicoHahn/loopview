@@ -11,6 +11,10 @@ class IssueTemplatesController < ApplicationController
   end
 
   def create
+    @issue_template = IssueTemplate.create(params.require(:issue_template).permit(:title))
+    if @issue_template
+      redirect_to edit_issue_template_path(id: @issue_template.id)
+    end
   end
 
   def edit

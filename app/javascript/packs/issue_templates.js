@@ -17,7 +17,7 @@ $(document).on('click', '.add_attribute', function(e){
     }
 });
 
-$(document).on('click', 'button[type=submit]', function(e){
+$(document).on('click', 'button[type=submit].aj_btn', function(e){
     $(this).children('#loader').show();
     $(this).children('#prev_loader').hide();
     e.preventDefault();

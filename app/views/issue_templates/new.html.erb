@@ -4,7 +4,7 @@
 
   <div class="container rounded-custom shadow mh-70">
     <%= f.select(:issue_template_attributes, IssueTemplateAttribute::ATTRIBUTE_TYPES.map { |ita| [I18n.t('template_type_'+ita.to_s), ita] }, {include_blank: "Feld auswählen"}, {class: 'form-control mt-3'}) %>
-    <button type="button" class="add_attribute btn btn-info float-end mt-3" data-id="<%= f.object.id %>">
+    <button type="button" class="add_attribute btn btn-info float-end mt-3 aj_btn" data-id="<%= f.object.id %>">
       <i class="fas fa-check"></i>
       Hinzufügen
     </button>
