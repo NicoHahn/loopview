@@ -13,7 +13,11 @@
   <div class="container rounded-custom shadow">
     <%= f.label :title %>
     <%= f.text_field :title, class: "form-control", required: true %>
-    <%= f.submit "Speichern", class: "btn btn-info float-end mt-3"%>
+    <%= button_tag(type: 'submit', class: "btn btn-info float-end mt-3") do %>
+      <span id="loader" class="spinner-border spinner-border-sm" role="status" style="display:none;"></span>
+      <i id="prev_loader" class="fas fa-save"></i>
+      Speichern
+    <% end %>
   </div>
 
 <%end%>

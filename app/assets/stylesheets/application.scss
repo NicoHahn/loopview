@@ -41,6 +41,12 @@ html, body {
   min-height: 70px !important;
 }
 
+.action_btn:hover {
+  border: 1px solid;
+  border-radius: 0.35rem !important;
+  cursor: pointer;
+}
+
 table tbody tr:last-child{
   border-bottom-style: hidden;
 }

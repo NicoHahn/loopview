@@ -7,20 +7,24 @@
       <tr>
         <th scope="col">ID</th>
         <th scope="col">Titel</th>
+        <th scope="col">Aktionen</th>
       </tr>
     </thead>
     <tbody>
       <% @projects.each do |p| %>
         <tr>
-          <th scope="row"><%= p.id %></th>
+          <td><%= p.id %></td>
           <td><%= p.title %></td>
+          <td>
+            <%= link_to(edit_issue_template_path(id: t.id),:class => 'btn action_btn') do %>
+              <i class="fas fa-edit"></i>
+            <% end %>
+            <%= link_to(issue_template_path(id: t.id), :method => 'delete',:class => 'btn action_btn') do %>
+              <i class="fas fa-trash-alt"></i>
+            <% end %>
+          </td>
         </tr>
       <% end %>
-
-      <tr>
-        <th scope="row">asdf</th>
-        <td>asdf</td>
-      </tr>
     </tbody>
   </table>
 </div>

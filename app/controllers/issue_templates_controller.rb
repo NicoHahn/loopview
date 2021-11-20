@@ -24,20 +24,22 @@ class IssueTemplatesController < ApplicationController
   end
 
   def destroy
+    @issue_template.destroy!
+    redirect_to issue_templates_path
   end
 
   def add_attribute
     if params[:id].blank?
       @issue_template = IssueTemplate.create(title: params[:title])
     end
-    IssueTemplateAttribute.create(issue_template_id: issue_template.id, attribute_type: params[:attribute_id].to_i)
-    render json: {location: "/issue_templates/#{issue_template.id}/edit"}
+    IssueTemplateAttribute.create(issue_template_id: @issue_template.id, attribute_type: params[:attribute_id].to_i)
+    render json: {location: "/issue_templates/#{@issue_template.id}/edit"}
   end
 
   private
 
   def set_issue_template
-    @issue_template = IssueTemplate.find_by!(id: params[:id])
+    @issue_template = IssueTemplate.find_by!(id: params[:id]) unless params[:id].blank?
   end
 
 end

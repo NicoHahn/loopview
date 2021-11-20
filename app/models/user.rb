@@ -7,4 +7,8 @@ class User < ApplicationRecord
             uniqueness: { case_sensitive: false },
             length: { minimum: 4, maximum: 254 }
 
+  def full_name
+    self.firstname + " " + self.lastname
+  end
+
 end
