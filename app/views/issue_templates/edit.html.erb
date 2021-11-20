@@ -21,4 +21,15 @@
     <% end %>
   </div>
 
-<%end%>
+  <%= f.fields_for :issue_template_attributes do |ita| %>
+    <div class="container rounded-custom shadow">
+      <%= ita.label :field_title %>
+      <%= ita.text_field :field_title, value: ita.object.field_title, class: "form-control" %>
+
+      <%= ita.label :field_value %>
+      <%= ita.text_field :field_value, value: ita.object.field_value , class: "form-control" %>
+    </div>
+  <% end %>
+
+
+<% end %>

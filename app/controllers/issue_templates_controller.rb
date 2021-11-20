@@ -18,7 +18,7 @@ class IssueTemplatesController < ApplicationController
   end
 
   def update
-    if @issue_template.update(params.require(:issue_template).permit(:title))
+    if @issue_template.update(params.require(:issue_template).permit(:title, issue_template_attributes_attributes: [:field_title, :field_value, :id]))
       render json: {success: true}
     end
   end
