@@ -6,6 +6,7 @@
     <thead>
       <tr>
         <th scope="col">ID</th>
+        <th scope="col">Key</th>
         <th scope="col">Titel</th>
         <th scope="col">Aktionen</th>
       </tr>
@@ -15,9 +16,10 @@
         <tr>
           <td><%= p.id %></td>
           <td><%= p.external_key %></td>
+          <td><%= p.external_title %></td>
           <td>
-            <%= link_to(edit_project_path(id: p.id),:class => 'btn action_btn') do %>
-              <i class="fas fa-edit"></i>
+            <%= link_to(project_path(id: p.id),:class => 'btn action_btn') do %>
+              <i class="fas fa-list"></i>
             <% end %>
             <%= link_to(project_path(id: p.id), :method => 'delete',:class => 'btn action_btn') do %>
               <i class="fas fa-trash-alt"></i>

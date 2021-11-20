@@ -16,10 +16,11 @@ class ProjectsController < ApplicationController
   end
 
   def create
-
-    project_id, existing = JiraConnector.check_for_project(params[:project][:external_key], current_user)
+    project_id, project_title, existing = JiraConnector.check_for_project(params[:project][:external_key], current_user)
     if Project.find_by(external_id: project_id, external_key: params[:project][:external_key]).nil? && existing
-      @project = Project.create(params.require(:project).permit(:external_key))
+      params[:project][:external_id] = project_id
+      params[:project][:external_title] = project_title
+      @project = Project.create(params.require(:project).permit(:external_key, :external_title, :external_id))
       if @project
         redirect_to edit_project_path(id: @project.id)
       end

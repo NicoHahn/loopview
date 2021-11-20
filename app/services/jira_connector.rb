@@ -37,9 +37,9 @@ class JiraConnector
   def self.check_for_project(project_key, user)
     response = send_request(:get, "https://loopview.atlassian.net/rest/api/3/project/#{project_key}", user)
     if response["errorMessages"] && response["errorMessages"].any?
-      [nil, false]
+      [nil, nil, false]
     else
-      [response["id"], true]
+      [response["id"], response["name"], true]
     end
   end
 
