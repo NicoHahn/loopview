@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_20_231056) do
+ActiveRecord::Schema.define(version: 2021_11_25_141809) do
 
   create_table "concrete_issue_templates", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "issue_templates_id"
+    t.bigint "issue_template_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "project_id"
-    t.index ["issue_templates_id"], name: "index_concrete_issue_templates_on_issue_templates_id"
+    t.index ["issue_template_id"], name: "index_concrete_issue_templates_on_issue_template_id"
     t.index ["project_id"], name: "index_concrete_issue_templates_on_project_id"
   end
 
@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(version: 2021_11_20_231056) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  add_foreign_key "concrete_issue_templates", "issue_templates", column: "issue_templates_id"
+  add_foreign_key "concrete_issue_templates", "issue_templates"
   add_foreign_key "concrete_issue_templates", "projects"
   add_foreign_key "concrete_template_values", "issue_template_attributes", column: "issue_template_attributes_id"
   add_foreign_key "issue_template_attributes", "issue_templates"
