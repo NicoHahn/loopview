@@ -12,7 +12,8 @@ class ProjectsController < ApplicationController
   end
 
   def show
-
+    @concrete_templates = @project.concrete_issue_templates
+    @issue_templates = IssueTemplate.all.where.not(id: @concrete_templates.pluck(:issue_templates_id))
   end
 
   def create
@@ -39,7 +40,7 @@ class ProjectsController < ApplicationController
   private
 
   def set_project
-    @porject = Project.find_by!(id: params[:id]) unless params[:id].blank?
+    @project = Project.find_by!(id: params[:id]) unless params[:id].blank?
   end
 
 end

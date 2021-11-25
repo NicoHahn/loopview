@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   #skip_before_action :authorized, only: [:new, :create]
+  before_action :set_user, only: [:update]
 
   def index
   end
@@ -20,8 +21,18 @@ class UsersController < ApplicationController
   end
 
   def update
+    if @user.update(params.require(:user).permit(:api_key))
+      redirect_to root_path
+    end
   end
 
   def destroy
   end
+
+  private
+
+  def set_user
+    @user = User.find_by!(id: params[:id])
+  end
+
 end

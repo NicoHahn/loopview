@@ -1,5 +1,7 @@
 class Project < ApplicationRecord
 
+  has_many :concrete_issue_templates
+
   def create_missing_projects(projects)
     projects.each do |p|
       project = Project.find_by(external_id: p[:id].to_i, external_key: p[:key])

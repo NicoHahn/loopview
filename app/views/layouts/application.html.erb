@@ -19,5 +19,43 @@
     <%= render "layouts/header" %>
     <%= yield %>
     <%= render "layouts/footer" %>
+
+
+    <!-- Modal -->
+    <div class="modal hide fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalLabel">API Token</h5>
+          </div>
+          <%= form_for current_user, class: "d-flex flex-column" do |f| %>
+            <div class="modal-body">
+
+                <p>Bitte gib zunächst deinen api token hier ein. Andernfalls wirst du nicht in der Lage sein, mit der JIRA-API zu kommunizieren!</p>
+
+              <div class="form-floating">
+                <%= f.text_field :api_key, {class: "form-control", id:"floatingKey", placeholder: "Token"} %>
+                <%= f.label :api_key, "Token" %>
+              </div>
+
+            </div>
+
+            <div class="modal-footer">
+              <%= submit_tag "Speichern", class: "btn btn-primary" %>
+            </div>
+          <%end%>
+        </div>
+      </div>
+    </div>
+
+
+
+    <script type="text/javascript">
+      $(window).on('load', function() {
+          if ( <%= current_user.api_key.blank? %> ) {
+            $('#modal').modal('show', {backdrop: 'static', keyboard: false});
+          }
+      });
+    </script>
   </body>
 </html>

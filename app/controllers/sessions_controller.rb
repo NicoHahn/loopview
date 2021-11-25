@@ -9,7 +9,11 @@ class SessionsController < ApplicationController
     @user = User.find_by(email: params[:email])
     if @user && @user.authenticate(params[:password])
       session[:user_id] = @user.id
-      redirect_to '/welcome'
+      if @user.api_key.blank?
+        redirect_to '/welcome'
+      else
+        redirect_to projects_path
+      end
     else
       redirect_to '/login'
     end
@@ -25,7 +29,7 @@ class SessionsController < ApplicationController
   end
 
   def welcome
-
+    redirect_to projects_path if current_user.api_key.blank?
   end
 
 end
