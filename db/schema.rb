@@ -10,23 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_25_141809) do
+ActiveRecord::Schema.define(version: 2021_11_26_113936) do
 
   create_table "concrete_issue_templates", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "issue_template_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "project_id"
+    t.integer "external_id"
     t.index ["issue_template_id"], name: "index_concrete_issue_templates_on_issue_template_id"
     t.index ["project_id"], name: "index_concrete_issue_templates_on_project_id"
   end
 
   create_table "concrete_template_values", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "issue_template_attributes_id"
+    t.bigint "issue_template_attribute_id"
     t.string "extended_field_value"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["issue_template_attributes_id"], name: "index_concrete_template_values_on_issue_template_attributes_id"
+    t.bigint "concrete_issue_template_id"
+    t.index ["concrete_issue_template_id"], name: "index_concrete_template_values_on_concrete_issue_template_id"
+    t.index ["issue_template_attribute_id"], name: "index_concrete_template_values_on_issue_template_attribute_id"
   end
 
   create_table "issue_template_attributes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -65,6 +68,7 @@ ActiveRecord::Schema.define(version: 2021_11_25_141809) do
 
   add_foreign_key "concrete_issue_templates", "issue_templates"
   add_foreign_key "concrete_issue_templates", "projects"
-  add_foreign_key "concrete_template_values", "issue_template_attributes", column: "issue_template_attributes_id"
+  add_foreign_key "concrete_template_values", "concrete_issue_templates"
+  add_foreign_key "concrete_template_values", "issue_template_attributes"
   add_foreign_key "issue_template_attributes", "issue_templates"
 end

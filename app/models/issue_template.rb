@@ -8,7 +8,8 @@ class IssueTemplate < ApplicationRecord
 
 
   def created_for_project?(project)
-    project.concrete_issue_templates.where(issue_template_id: self.id).any?
+    issue = project.concrete_issue_templates.where(issue_template_id: self.id).first
+    issue && !issue.external_id.nil?
   end
 
 end

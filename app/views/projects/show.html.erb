@@ -11,9 +11,15 @@
     <% @issue_templates.each do |it| %>
       <tr>
         <td><%= it.title %></td>
-        <td><%= it.created_for_project?(@project) %></td>
         <td>
-          <%= link_to((it.created_for_project?(@project) ? edit_concrete_issue_template_path(id: it.id) : new_concrete_issue_template_path(issue_template_id: it.id)), :class => 'btn action_btn') do %>
+          <% if it.created_for_project?(@project) %>
+            <i class="fas fa-check"></i>
+          <% else %>
+            <i class="fas fa-times"></i>
+          <% end %>
+        </td>
+        <td>
+          <%= link_to((it.created_for_project?(@project) ? edit_concrete_issue_template_path(id: it.id) : new_concrete_issue_template_path(issue_template_id: it.id, project_id: @project.id)), :class => 'btn action_btn') do %>
             <i class="fas fa-list"></i>
           <% end %>
           <a class="btn action_btn <%= 'disabled' unless it.created_for_project?(@project) %>" href="<%= concrete_issue_template_path(id: it.id) %>" data-method="delete">
