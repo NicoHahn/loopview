@@ -21,7 +21,8 @@ class ConcreteIssueTemplatesController < ApplicationController
   end
 
   def edit
-    @predefined_attributes = @concrete_issue_template.issue_template
+    @predefined_attributes = @concrete_issue_template.issue_template.issue_template_attributes
+    @issue_template = @concrete_issue_template.issue_template
   end
 
   def update

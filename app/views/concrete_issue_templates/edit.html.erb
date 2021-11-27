@@ -1,0 +1,31 @@
+<h1>Ticket erstellen</h1>
+
+<%= form_for @concrete_issue_template do |f| %>
+  <div class="container rounded-custom shadow">
+    <%= label_tag "Titel" %>
+    <%= text_field_tag "", @issue_template.title, class: "form-control", disabled: true %>
+  </div>
+
+  <%= f.fields_for :concrete_template_values do |itv| %>
+    <div class="container rounded-custom shadow">
+
+      <% defined_attribute = @predefined_attributes.where(id: itv.object.issue_template_attribute_id).first %>
+      <%= itv.hidden_field :issue_template_attribute_id, value: defined_attribute.id %>
+      <% case defined_attribute.attribute_type %>
+      <% when IssueTemplateAttribute::TYPE_GENERAL_DESCRIPTION || IssueTemplateAttribute::TYPE_TECHNICAL_DESCRIPTION %>
+        <%= itv.label defined_attribute.field_title rescue "hier is nichts eingetragen" %>
+        <%= itv.text_field :extended_field_value, class: "form-control" %>
+      <% when IssueTemplateAttribute::TYPE_CODEBLOCK %>
+      <% when IssueTemplateAttribute::TYPE_ORDERED_LIST %>
+      <% when IssueTemplateAttribute::TYPE_UNORDERED_LIST %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= button_tag(type: 'submit', class: "btn btn-info float-end mt-3") do %>
+    <span id="loader" class="spinner-border spinner-border-sm" role="status" style="display:none;"></span>
+    <i id="prev_loader" class="fas fa-save"></i>
+    Speichern
+  <% end %>
+
+<% end %>

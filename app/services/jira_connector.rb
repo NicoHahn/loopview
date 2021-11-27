@@ -46,7 +46,10 @@ class JiraConnector
   private
 
   def build_data(params)
-    # build data structure as json for request body
+    concrete_issue_template = ConcreteIssueTemplate.find_by(params[:concrete_issue_template_id])
+    project = concrete_issue_template.project.external_key
+    template_attributes = concrete_issue_template.issue_template.issue_template_attributes
+    template_values = concrete_issue_template.concrete_template_values
   end
 
   def self.get_authorization_header_value(user)

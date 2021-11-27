@@ -12,12 +12,15 @@
     <div class="container rounded-custom shadow">
 
       <% defined_attribute = @predefined_attributes.where(id: itv.object.issue_template_attribute_id).first %>
-
-      <%# case defined_attribute.attribute_type %>
       <%= itv.hidden_field :issue_template_attribute_id, value: defined_attribute.id %>
-      <%= itv.label defined_attribute.field_title rescue "hier is nichts eingetragen" %>
-      <%= itv.text_field :extended_field_value, class: "form-control" %>
-
+      <% case defined_attribute.attribute_type %>
+      <% when IssueTemplateAttribute::TYPE_GENERAL_DESCRIPTION || IssueTemplateAttribute::TYPE_TECHNICAL_DESCRIPTION %>
+        <%= itv.label defined_attribute.field_title rescue "hier is nichts eingetragen" %>
+        <%= itv.text_field :extended_field_value, class: "form-control" %>
+      <% when IssueTemplateAttribute::TYPE_CODEBLOCK %>
+      <% when IssueTemplateAttribute::TYPE_ORDERED_LIST %>
+      <% when IssueTemplateAttribute::TYPE_UNORDERED_LIST %>
+      <% end %>
     </div>
   <% end %>
 
