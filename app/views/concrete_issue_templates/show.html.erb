@@ -1,8 +1,6 @@
 <h1>Ticket erstellen</h1>
 
 <%= form_for @concrete_issue_template do |f| %>
-  <%= f.hidden_field :project_id, value: params[:project_id] %>
-  <%= f.hidden_field :issue_template_id, value: @issue_template.id %>
   <div class="container rounded-custom shadow">
     <%= label_tag "Titel" %>
     <%= text_field_tag "", @issue_template.title, class: "form-control", disabled: true %>
@@ -16,17 +14,16 @@
       <% case defined_attribute.attribute_type %>
       <% when IssueTemplateAttribute::TYPE_GENERAL_DESCRIPTION || IssueTemplateAttribute::TYPE_TECHNICAL_DESCRIPTION || IssueTemplateAttribute::TYPE_CODEBLOCK %>
         <%= itv.label defined_attribute.field_title rescue "hier is nichts eingetragen" %>
-        <%= itv.text_field :extended_field_value, class: "form-control" %>
+        <%= itv.text_field :extended_field_value, class: "form-control", disabled: true %>
       <% when IssueTemplateAttribute::TYPE_ORDERED_LIST %>
       <% when IssueTemplateAttribute::TYPE_UNORDERED_LIST %>
       <% end %>
     </div>
   <% end %>
 
-  <%= button_tag(type: 'submit', class: "btn btn-info float-end mt-3") do %>
-    <span id="loader" class="spinner-border spinner-border-sm" role="status" style="display:none;"></span>
-    <i id="prev_loader" class="fas fa-save"></i>
-    Speichern
-  <% end %>
+  <button type="button" class="create_task btn btn-info float-end mt-3 aj_btn" data-id="<%= f.object.id %>">
+    <i class="fas fa-upload"></i>
+    Erstellen
+  </button>
 
 <% end %>

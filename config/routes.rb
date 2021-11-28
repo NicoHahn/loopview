@@ -9,7 +9,12 @@ Rails.application.routes.draw do
   end
   resources :sessions
   resources :users
-  resources :concrete_issue_templates
+  resources :concrete_issue_templates do
+    collection do
+      post :send_to_jira
+    end
+  end
+
 
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'

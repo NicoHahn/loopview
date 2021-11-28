@@ -13,7 +13,7 @@ class ProjectsController < ApplicationController
 
   def show
     @concrete_templates = @project.concrete_issue_templates
-    @issue_templates = IssueTemplate.all.where.not(id: @concrete_templates.pluck(:issue_template_id))
+    @issue_templates = IssueTemplate.all#.where.not(id: @concrete_templates.pluck(:issue_template_id))
   end
 
   def create

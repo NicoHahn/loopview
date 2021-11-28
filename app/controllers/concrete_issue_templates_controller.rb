@@ -1,6 +1,6 @@
 class ConcreteIssueTemplatesController < ApplicationController
 
-  before_action :set_concrete_issue_template, only: [:edit, :update, :destroy]
+  before_action :set_concrete_issue_template, only: [:edit, :update, :destroy, :show]
 
   def index
     @templates = IssueTemplate.all
@@ -25,11 +25,21 @@ class ConcreteIssueTemplatesController < ApplicationController
     @issue_template = @concrete_issue_template.issue_template
   end
 
+  def show
+    @predefined_attributes = @concrete_issue_template.issue_template.issue_template_attributes
+    @issue_template = @concrete_issue_template.issue_template
+  end
+
   def update
   end
 
   def destroy
     @concrete_issue_template.destroy!
+  end
+
+  def send_to_jira
+    response_body = JiraConnector.send_request(:post, "https://loopview.atlassian.net/rest/api/3/issue", current_user, nil, params[:id])
+    ConcreteIssueTemplate.find_by!(id: params[:id]).connect_with_issue(response_body["id"], response_body["key"])
   end
 
   private

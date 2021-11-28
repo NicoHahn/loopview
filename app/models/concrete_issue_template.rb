@@ -5,4 +5,8 @@ class ConcreteIssueTemplate < ApplicationRecord
 
   accepts_nested_attributes_for :concrete_template_values
 
+  def connect_with_issue(external_id)
+    self.update(external_id: external_id)
+  end
+
 end
