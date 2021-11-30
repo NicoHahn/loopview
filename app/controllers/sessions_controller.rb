@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
 
   def create
     @user = User.find_by(email: params[:email])
-    if @user && @user.authenticate(params[:password])
+    if @user && @user.authenticate(params[:password]) && @user.passwd_changed
       session[:user_id] = @user.id
       if @user.api_key.blank?
         redirect_to '/welcome'

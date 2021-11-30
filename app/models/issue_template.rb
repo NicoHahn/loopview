@@ -12,5 +12,9 @@ class IssueTemplate < ApplicationRecord
     issue && !issue.external_id.nil?
   end
 
+  def concrete_template_existing?(project)
+    project.concrete_issue_templates.where(issue_template_id: self.id).any?
+  end
+
 end
 

@@ -5,7 +5,8 @@ class IssueTemplateAttribute < ApplicationRecord
   TYPE_UNORDERED_LIST = 2
   TYPE_ORDERED_LIST = 3
   TYPE_CODEBLOCK = 4
+  TYPE_KEY_VALUE = 5
 
-  ATTRIBUTE_TYPES = [ 0, 1, 2, 3, 4 ]
+  ATTRIBUTE_TYPES = [ 0, 1, 2, 3, 4, 5 ]
 
 end

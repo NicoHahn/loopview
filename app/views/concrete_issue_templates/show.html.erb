@@ -14,9 +14,12 @@
       <% case defined_attribute.attribute_type %>
       <% when IssueTemplateAttribute::TYPE_GENERAL_DESCRIPTION || IssueTemplateAttribute::TYPE_TECHNICAL_DESCRIPTION || IssueTemplateAttribute::TYPE_CODEBLOCK %>
         <%= itv.label defined_attribute.field_title rescue "hier is nichts eingetragen" %>
-        <%= itv.text_field :extended_field_value, class: "form-control", disabled: true %>
+        <%= itv.text_area :extended_field_value, class: "form-control", disabled: true %>
       <% when IssueTemplateAttribute::TYPE_ORDERED_LIST %>
       <% when IssueTemplateAttribute::TYPE_UNORDERED_LIST %>
+      <% when  IssueTemplateAttribute::TYPE_KEY_VALUE %>
+        <%= itv.label defined_attribute.field_title rescue "hier is nichts eingetragen" %>
+        <%= itv.text_field :extended_field_value, class: "form-control", disabled: true %>
       <% end %>
     </div>
   <% end %>

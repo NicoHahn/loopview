@@ -104,7 +104,7 @@ class JiraConnector
   end
 
   def self.get_authorization_header_value(user)
-    "Basic #{Base64.encode64("#{user.email}:#{user.api_key}")}".gsub("\n", "\\\\n")
+    "Basic #{Base64.strict_encode64("#{user.email}:#{user.api_key}")}" #.gsub("\n", "\\\\n")
   end
 
   def self.set_heading(body_data, attribute)

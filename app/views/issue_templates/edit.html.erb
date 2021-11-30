@@ -4,30 +4,28 @@
 
   <div class="container rounded-custom shadow mh-70">
     <%= f.select(:issue_template_attributes, IssueTemplateAttribute::ATTRIBUTE_TYPES.map { |ita| [I18n.t('template_type_'+ita.to_s), ita] }, {include_blank: "Feld auswählen"}, {class: 'form-control mt-3'}) %>
-    <button type="button" class="add_attribute btn btn-info float-end mt-3" data-id="<%= f.object.id %>">
-      <i class="fas fa-check"></i>
-      Hinzufügen
-    </button>
+    <div class="float-end mt-3">
+      <button type="button" class="add_attribute btn btn-info" data-id="<%= f.object.id %>">
+        <i class="fas fa-check"></i>
+        Hinzufügen
+      </button>
+      <%= button_tag(type: 'submit', class: "btn btn-info") do %>
+        <span id="loader" class="spinner-border spinner-border-sm" role="status" style="display:none;"></span>
+        <i id="prev_loader" class="fas fa-save"></i>
+        Speichern
+      <% end %>
+    </div>
   </div>
 
   <div class="container rounded-custom shadow">
-    <%= f.label :title %>
+    <h5 class="pt-3">Titel</h5>
     <%= f.text_field :title, class: "form-control", required: true %>
-
-    <%= button_tag(type: 'submit', class: "btn btn-info float-end mt-3") do %>
-      <span id="loader" class="spinner-border spinner-border-sm" role="status" style="display:none;"></span>
-      <i id="prev_loader" class="fas fa-save"></i>
-      Speichern
-    <% end %>
   </div>
 
   <%= f.fields_for :issue_template_attributes do |ita| %>
     <div class="container rounded-custom shadow">
-      <%= ita.label :field_title %>
-      <%= ita.text_field :field_title, value: ita.object.field_title, class: "form-control" %>
-
-      <%= ita.label :field_value %>
-      <%= ita.text_field :field_value, value: ita.object.field_value , class: "form-control" %>
+      <h5 class="pt-3"><%= I18n.t('template_type_'+ita.object.attribute_type.to_s) %></h5>
+      <%= ita.text_area :field_value, value: ita.object.field_value , class: "form-control" %>
     </div>
   <% end %>
 

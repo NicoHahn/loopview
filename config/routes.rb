@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     end
   end
 
+  post 'first_login', to: 'users#create'
 
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'

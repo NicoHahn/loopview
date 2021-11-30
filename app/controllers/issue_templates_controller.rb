@@ -23,7 +23,7 @@ class IssueTemplatesController < ApplicationController
 
   def update
     if @issue_template.update(params.require(:issue_template).permit(:title, issue_template_attributes_attributes: [:field_title, :field_value, :id]))
-      render json: {success: true}
+      redirect_to edit_issue_template_path(id: @issue_template.id)
     end
   end
 

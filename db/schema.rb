@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_26_113936) do
+ActiveRecord::Schema.define(version: 2021_11_30_211458) do
 
   create_table "concrete_issue_templates", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "issue_template_id"
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(version: 2021_11_26_113936) do
     t.string "password_digest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "passwd_changed", default: false
   end
 
   add_foreign_key "concrete_issue_templates", "issue_templates"
