@@ -71,7 +71,31 @@ class JiraConnector
     template_values.each do |tv|
       attribute = IssueTemplateAttribute.find_by!(id: tv.issue_template_attribute_id)
       case attribute.attribute_type
-      when IssueTemplateAttribute::TYPE_GENERAL_DESCRIPTION || IssueTemplateAttribute::TYPE_TECHNICAL_DESCRIPTION
+      when IssueTemplateAttribute::TYPE_GENERAL_DESCRIPTION
+        body_data = set_heading(body_data, attribute)
+        body_data[:fields][:description][:content] << {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "#{tv.extended_field_value}"
+            }
+          ]
+        }
+        body_data = add_line_break(body_data)
+      when IssueTemplateAttribute::TYPE_TECHNICAL_DESCRIPTION
+        body_data = set_heading(body_data, attribute)
+        body_data[:fields][:description][:content] << {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "#{tv.extended_field_value}"
+            }
+          ]
+        }
+        body_data = add_line_break(body_data)
+      when IssueTemplateAttribute::TYPE_KEY_VALUE
         body_data = set_heading(body_data, attribute)
         body_data[:fields][:description][:content] << {
           "type": "paragraph",
@@ -116,9 +140,21 @@ class JiraConnector
         "content": [
             {
                 "type": "text",
-                "text": "#{attribute.field_title}"
+                "text": I18n.t('template_type_'+attribute.attribute_type.to_s)
             }
         ]
+    }
+    body_data[:fields][:description][:content] << {
+      "type": "heading",
+      "attrs": {
+        "level": 3
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "#{attribute.field_value}"
+        }
+      ]
     }
     body_data
   end

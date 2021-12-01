@@ -20,7 +20,7 @@
         </td>
         <td>
           <% if it.concrete_template_existing?(@project) %>
-            <%= link_to(edit_concrete_issue_template_path(id: it.id), :class => 'btn action_btn') do %>
+            <%= link_to(edit_concrete_issue_template_path(id: ConcreteIssueTemplate.find_by!(issue_template_id: it.id, project_id: @project.id).id), :class => 'btn action_btn') do %>
               <i class="fas fa-upload"></i>
             <% end %>
           <% else %>

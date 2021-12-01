@@ -15,7 +15,7 @@
       <%= itv.hidden_field :issue_template_attribute_id, value: defined_attribute.id %>
       <% case defined_attribute.attribute_type %>
       <% when IssueTemplateAttribute::TYPE_GENERAL_DESCRIPTION || IssueTemplateAttribute::TYPE_TECHNICAL_DESCRIPTION || IssueTemplateAttribute::TYPE_CODEBLOCK %>
-        <%= itv.label defined_attribute.field_title rescue "hier is nichts eingetragen" %>
+        <h5 class="pt-3"><%= I18n.t('template_type_'+defined_attribute.attribute_type.to_s) %></h5>
         <%= itv.text_field :extended_field_value, class: "form-control" %>
       <% when IssueTemplateAttribute::TYPE_ORDERED_LIST %>
       <% when IssueTemplateAttribute::TYPE_UNORDERED_LIST %>

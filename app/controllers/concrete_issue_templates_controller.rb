@@ -31,6 +31,9 @@ class ConcreteIssueTemplatesController < ApplicationController
   end
 
   def update
+    if @concrete_issue_template.update(params.require(:concrete_issue_template).permit(concrete_template_values_attributes: [:issue_template_attribute_id, :extended_field_value, :id]))
+      redirect_to edit_concrete_issue_template_path(id: @concrete_issue_template.id)
+    end
   end
 
   def destroy
@@ -39,7 +42,8 @@ class ConcreteIssueTemplatesController < ApplicationController
 
   def send_to_jira
     response_body = JiraConnector.send_request(:post, "https://loopview.atlassian.net/rest/api/3/issue", current_user, nil, params[:id])
-    ConcreteIssueTemplate.find_by!(id: params[:id]).connect_with_issue(response_body["id"], response_body["key"])
+    byebug
+    ConcreteIssueTemplate.find_by!(id: params[:id]).connect_with_issue(response_body["id"])
   end
 
   private
