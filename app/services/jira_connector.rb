@@ -122,13 +122,85 @@ class JiraConnector
           ]
         }
         body_data = add_line_break(body_data)
+      when IssueTemplateAttribute::TYPE_ORDERED_LIST
+        field_values = {}
+        attribute.optional_size.times do
+          field_values << {
+            "type": "listItem",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "erster"
+                  }
+                ]
+              }
+            ]
+          }
+        end
+        body_data[:fields][:description][:content] << {
+          "type": "heading",
+          "attrs": {
+            "level": 3
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "#{attribute.field_value}"
+            }
+          ]
+        }
+        body_data[:fields][:description][:content] << {
+          "type": "orderedList",
+          "content": [
+            field_values.to_json
+          ]
+        }
+      when IssueTemplateAttribute::TYPE_UNORDERED_LIST
+        field_values = {}
+        attribute.optional_size.times do
+          field_values << {
+            "type": "listItem",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "erster"
+                  }
+                ]
+              }
+            ]
+          }
+        end
+        body_data[:fields][:description][:content] << {
+          "type": "heading",
+          "attrs": {
+            "level": 3
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "#{attribute.field_value}"
+            }
+          ]
+        }
+        body_data[:fields][:description][:content] << {
+          "type": "bulletList",
+          "content": [
+            field_values.to_json
+          ]
+        }
       end
     end
     body_data
   end
 
   def self.get_authorization_header_value(user)
-    "Basic #{Base64.strict_encode64("#{user.email}:#{user.api_key}")}" #.gsub("\n", "\\\\n")
+    "Basic #{Base64.strict_encode64("#{user.email}:#{user.api_key}")}"
   end
 
   def self.set_heading(body_data, attribute)

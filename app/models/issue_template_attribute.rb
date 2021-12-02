@@ -9,4 +9,8 @@ class IssueTemplateAttribute < ApplicationRecord
 
   ATTRIBUTE_TYPES = [ 0, 1, 2, 3, 4, 5 ]
 
+  TEXT_FIELD_ATTRIBUTES = [ 0, 1, 4, 5 ]
+
+  LIST_FIELD_ATTRIBUTES = [ 2, 3 ]
+
 end

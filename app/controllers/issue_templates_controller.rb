@@ -22,7 +22,7 @@ class IssueTemplatesController < ApplicationController
   end
 
   def update
-    if @issue_template.update(params.require(:issue_template).permit(:title, issue_template_attributes_attributes: [:field_title, :field_value, :id]))
+    if @issue_template.update(params.require(:issue_template).permit(:title, issue_template_attributes_attributes: [:field_title, :field_value, :id, :optional_size]))
       redirect_to edit_issue_template_path(id: @issue_template.id)
     end
   end

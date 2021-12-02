@@ -3,7 +3,9 @@
 <%= form_for @issue_template, :html => { :'data-url' => "#{issue_template_path(id: @issue_template)}" } do |f| %>
 
   <div class="container rounded-custom shadow mh-70">
-    <%= f.select(:issue_template_attributes, IssueTemplateAttribute::ATTRIBUTE_TYPES.map { |ita| [I18n.t('template_type_'+ita.to_s), ita] }, {include_blank: "Feld auswählen"}, {class: 'form-control mt-3'}) %>
+    <%= f.select(:issue_template_attributes,
+                 IssueTemplateAttribute::ATTRIBUTE_TYPES.map { |ita| [I18n.t('template_type_'+ita.to_s), ita] },
+                 {include_blank: "Feld auswählen"}, {class: 'form-control mt-3'}) %>
     <div class="float-end mt-3">
       <button type="button" class="add_attribute btn btn-info" data-id="<%= f.object.id %>">
         <i class="fas fa-check"></i>
@@ -25,7 +27,20 @@
   <%= f.fields_for :issue_template_attributes do |ita| %>
     <div class="container rounded-custom shadow">
       <h5 class="pt-3"><%= I18n.t('template_type_'+ita.object.attribute_type.to_s) %></h5>
-      <%= ita.text_area :field_value, value: ita.object.field_value , class: "form-control" %>
+      <% if IssueTemplateAttribute::TEXT_FIELD_ATTRIBUTES.include?(ita.object.attribute_type) %>
+        <%= ita.text_area :field_value, value: ita.object.field_value , class: "form-control" %>
+      <% elsif IssueTemplateAttribute::LIST_FIELD_ATTRIBUTES.include?(ita.object.attribute_type) %>
+        <div class="row col-12">
+          <div class="col-10">
+            <%= ita.label "Titel" %>
+            <%= ita.text_field :field_value, value: ita.object.field_value, class: "form-control" %>
+          </div>
+          <div class="col-2">
+            <%= ita.label "Anzahl Punkte" %>
+            <%= ita.number_field :optional_size, value: ita.object.optional_size, class: "form-control" %>
+          </div>
+        </div>
+      <% end %>
     </div>
   <% end %>
 

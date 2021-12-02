@@ -42,7 +42,6 @@ class ConcreteIssueTemplatesController < ApplicationController
 
   def send_to_jira
     response_body = JiraConnector.send_request(:post, "https://loopview.atlassian.net/rest/api/3/issue", current_user, nil, params[:id])
-    byebug
     ConcreteIssueTemplate.find_by!(id: params[:id]).connect_with_issue(response_body["id"])
   end
 

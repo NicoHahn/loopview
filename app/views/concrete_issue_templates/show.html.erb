@@ -25,9 +25,13 @@
         <%= itv.label defined_attribute.field_value rescue "hier is nichts eingetragen" %>
         <%= itv.text_field :extended_field_value, class: "form-control" %>
       <% when IssueTemplateAttribute::TYPE_CODEBLOCK %>
+        <h5 class="pt-3"><%= I18n.t('template_type_'+defined_attribute.attribute_type.to_s) %></h5>
+        <%= itv.label defined_attribute.field_value rescue "hier is nichts eingetragen" %>
+        <%= itv.text_field :extended_field_value, class: "form-control" %>
       <% when IssueTemplateAttribute::TYPE_ORDERED_LIST %>
       <% when IssueTemplateAttribute::TYPE_UNORDERED_LIST %>
       <% end %>
+
     </div>
   <% end %>
 
