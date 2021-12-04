@@ -14,8 +14,9 @@ class SessionsController < ApplicationController
       else
         redirect_to projects_path
       end
+      flash[:success] = "Erfolgreich angemeldet!"
     else
-      redirect_to '/login'
+      redirect_to '/login', danger: "Ungültige E-Mail / Passwort Kombination"
     end
   end
 

@@ -16,6 +16,9 @@
 
   <body>
     <%= render "layouts/header" %>
+    <% flash.each do |name, msg| %>
+      <div class="alert alert-<%= name %>" role="alert" style="position:fixed;width:100%;"><%= msg %></div>
+    <% end %>
     <%= yield %>
     <%= render "layouts/footer" %>
     <% if current_user %>
@@ -45,6 +48,11 @@
           if ( <%= current_user.api_key.blank? %> ) {
             $('#modal').modal('show', {backdrop: 'static', keyboard: false});
           }
+        });
+        $(function() {
+            setTimeout(function(){
+                $('.alert').slideUp(500);
+            }, 1000);
         });
       </script>
     <% end %>

@@ -17,7 +17,7 @@ class ConcreteIssueTemplatesController < ApplicationController
     @concrete_issue_template = ConcreteIssueTemplate.create!(params.require(:concrete_issue_template).permit(
       :project_id, :issue_template_id, concrete_template_values_attributes: [:issue_template_attribute_id, :concrete_issue_template_id, :extended_field_value, dynamic_size_data: {}]))
     if @concrete_issue_template
-      redirect_to edit_concrete_issue_template_path(id: @concrete_issue_template.id)
+      redirect_to edit_concrete_issue_template_path(id: @concrete_issue_template.id), success: "Erfolgreich erstellt!"
     end
   end
 
@@ -33,7 +33,9 @@ class ConcreteIssueTemplatesController < ApplicationController
 
   def update
     if @concrete_issue_template.update(params.require(:concrete_issue_template).permit(concrete_template_values_attributes: [:issue_template_attribute_id, :extended_field_value, :id]))
-      redirect_to edit_concrete_issue_template_path(id: @concrete_issue_template.id)
+      redirect_to edit_concrete_issue_template_path(id: @concrete_issue_template.id), success: "Erfolgreich gespeichert!"
+    else
+      redirect_to edit_concrete_issue_template_path(id: @concrete_issue_template.id), danger: "Es ist ein Fehler aufgetreten!"
     end
   end
 
@@ -44,6 +46,7 @@ class ConcreteIssueTemplatesController < ApplicationController
   def send_to_jira
     response_body = JiraConnector.send_request(:post, "https://loopview.atlassian.net/rest/api/3/issue", current_user, nil, params[:id])
     ConcreteIssueTemplate.find_by!(id: params[:id]).connect_with_issue(response_body["id"])
+    flash[:success] = "Ticket erfolgreich erstellt!"
   end
 
   private

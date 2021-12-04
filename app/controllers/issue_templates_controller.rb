@@ -13,7 +13,7 @@ class IssueTemplatesController < ApplicationController
   def create
     @issue_template = IssueTemplate.create(params.require(:issue_template).permit(:title))
     if @issue_template
-      redirect_to edit_issue_template_path(id: @issue_template.id)
+      redirect_to edit_issue_template_path(id: @issue_template.id), success: "Erfolgreich erstellt!"
     end
   end
 
@@ -23,13 +23,13 @@ class IssueTemplatesController < ApplicationController
 
   def update
     if @issue_template.update(params.require(:issue_template).permit(:title, issue_template_attributes_attributes: [:field_title, :field_value, :id, :optional_size]))
-      redirect_to edit_issue_template_path(id: @issue_template.id)
+      redirect_to edit_issue_template_path(id: @issue_template.id), success: "Erfolgreich gespeichert!"
     end
   end
 
   def destroy
     @issue_template.destroy!
-    redirect_to issue_templates_path
+    redirect_to issue_templates_path, success: "Erfolgreich gelöscht!"
   end
 
   def add_attribute
@@ -37,7 +37,7 @@ class IssueTemplatesController < ApplicationController
       @issue_template = IssueTemplate.create(title: params[:title])
     end
     IssueTemplateAttribute.create(issue_template_id: @issue_template.id, attribute_type: params[:attribute_id].to_i)
-    render json: {location: "/issue_templates/#{@issue_template.id}/edit"}
+    render json: {location: "/issue_templates/#{@issue_template.id}/edit"}, success: "Erfolgreich erstellt!"
   end
 
   private

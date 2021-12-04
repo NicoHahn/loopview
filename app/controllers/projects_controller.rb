@@ -23,8 +23,10 @@ class ProjectsController < ApplicationController
       params[:project][:external_title] = project_title
       @project = Project.create(params.require(:project).permit(:external_key, :external_title, :external_id))
       if @project
-        redirect_to edit_project_path(id: @project.id)
+        redirect_to edit_project_path(id: @project.id), success: "Projekt erfolgreich erstellt!"
       end
+    else
+      flash[:warning] = "Projekt konnte nicht in Jira gefunden werden!"
     end
   end
 
