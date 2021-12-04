@@ -14,7 +14,8 @@ class ConcreteIssueTemplatesController < ApplicationController
   end
 
   def create
-    @concrete_issue_template = ConcreteIssueTemplate.create!(params.require(:concrete_issue_template).permit(:project_id, :issue_template_id, concrete_template_values_attributes: [:issue_template_attribute_id, :concrete_issue_template_id, :extended_field_value]))
+    @concrete_issue_template = ConcreteIssueTemplate.create!(params.require(:concrete_issue_template).permit(
+      :project_id, :issue_template_id, concrete_template_values_attributes: [:issue_template_attribute_id, :concrete_issue_template_id, :extended_field_value, dynamic_size_data: {}]))
     if @concrete_issue_template
       redirect_to edit_concrete_issue_template_path(id: @concrete_issue_template.id)
     end

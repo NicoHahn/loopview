@@ -62,8 +62,7 @@ class JiraConnector
         "description": {
           "type": "doc",
           "version": 1,
-          "content": [
-          ]
+          "content": []
         }
       },
     }
@@ -71,31 +70,7 @@ class JiraConnector
     template_values.each do |tv|
       attribute = IssueTemplateAttribute.find_by!(id: tv.issue_template_attribute_id)
       case attribute.attribute_type
-      when IssueTemplateAttribute::TYPE_GENERAL_DESCRIPTION
-        body_data = set_heading(body_data, attribute)
-        body_data[:fields][:description][:content] << {
-          "type": "paragraph",
-          "content": [
-            {
-              "type": "text",
-              "text": "#{tv.extended_field_value}"
-            }
-          ]
-        }
-        body_data = add_line_break(body_data)
-      when IssueTemplateAttribute::TYPE_TECHNICAL_DESCRIPTION
-        body_data = set_heading(body_data, attribute)
-        body_data[:fields][:description][:content] << {
-          "type": "paragraph",
-          "content": [
-            {
-              "type": "text",
-              "text": "#{tv.extended_field_value}"
-            }
-          ]
-        }
-        body_data = add_line_break(body_data)
-      when IssueTemplateAttribute::TYPE_KEY_VALUE
+      when IssueTemplateAttribute::TYPE_GENERAL_DESCRIPTION, IssueTemplateAttribute::TYPE_TECHNICAL_DESCRIPTION, IssueTemplateAttribute::TYPE_KEY_VALUE
         body_data = set_heading(body_data, attribute)
         body_data[:fields][:description][:content] << {
           "type": "paragraph",
@@ -124,22 +99,10 @@ class JiraConnector
         body_data = add_line_break(body_data)
       when IssueTemplateAttribute::TYPE_ORDERED_LIST
         field_values = {}
-        attribute.optional_size.times do
-          field_values << {
-            "type": "listItem",
-            "content": [
-              {
-                "type": "paragraph",
-                "content": [
-                  {
-                    "type": "text",
-                    "text": "erster"
-                  }
-                ]
-              }
-            ]
-          }
+        attribute.optional_size.times do |idx|
+          field_values = field_values.merge({ "type": "listItem", "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": tv.dynamic_size_data[idx.to_s] }] }] })
         end
+
         body_data[:fields][:description][:content] << {
           "type": "heading",
           "attrs": {
@@ -155,26 +118,13 @@ class JiraConnector
         body_data[:fields][:description][:content] << {
           "type": "orderedList",
           "content": [
-            field_values.to_json
+            field_values
           ]
         }
       when IssueTemplateAttribute::TYPE_UNORDERED_LIST
-        field_values = {}
-        attribute.optional_size.times do
-          field_values << {
-            "type": "listItem",
-            "content": [
-              {
-                "type": "paragraph",
-                "content": [
-                  {
-                    "type": "text",
-                    "text": "erster"
-                  }
-                ]
-              }
-            ]
-          }
+        content = []
+        attribute.optional_size.times do |idx|
+          content << { "type": "listItem", "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": tv.dynamic_size_data[idx.to_s] }] }] }
         end
         body_data[:fields][:description][:content] << {
           "type": "heading",
@@ -190,9 +140,7 @@ class JiraConnector
         }
         body_data[:fields][:description][:content] << {
           "type": "bulletList",
-          "content": [
-            field_values.to_json
-          ]
+          "content": content
         }
       end
     end

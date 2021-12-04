@@ -5,31 +5,49 @@
     <%= label_tag "Titel" %>
     <%= text_field_tag "", @issue_template.title, class: "form-control", disabled: true %>
   </div>
-
-  <%= f.fields_for :concrete_template_values do |itv| %>
+  <% idx = -1 %>
+  <%= f.fields_for :concrete_template_values do |ctv| %>
     <div class="container rounded-custom shadow">
-
-      <% defined_attribute = @predefined_attributes.where(id: itv.object.issue_template_attribute_id).first %>
-      <%= itv.hidden_field :issue_template_attribute_id, value: defined_attribute.id %>
+      <% idx+=1 %>
+      <% defined_attribute = @predefined_attributes.where(id: ctv.object.issue_template_attribute_id).first %>
+      <%= ctv.hidden_field :issue_template_attribute_id, value: defined_attribute.id %>
       <% case defined_attribute.attribute_type %>
       <% when IssueTemplateAttribute::TYPE_GENERAL_DESCRIPTION %>
         <h5 class="pt-3"><%= I18n.t('template_type_'+defined_attribute.attribute_type.to_s) %></h5>
-        <%= itv.label defined_attribute.field_value rescue "hier is nichts eingetragen" %>
-        <%= itv.text_field :extended_field_value, class: "form-control" %>
+        <%= ctv.label defined_attribute.field_value rescue "hier is nichts eingetragen" %>
+        <%= ctv.text_field :extended_field_value, class: "form-control" %>
       <% when IssueTemplateAttribute::TYPE_TECHNICAL_DESCRIPTION %>
         <h5 class="pt-3"><%= I18n.t('template_type_'+defined_attribute.attribute_type.to_s) %></h5>
-        <%= itv.label defined_attribute.field_value rescue "hier is nichts eingetragen" %>
-        <%= itv.text_field :extended_field_value, class: "form-control" %>
+        <%= ctv.label defined_attribute.field_value rescue "hier is nichts eingetragen" %>
+        <%= ctv.text_field :extended_field_value, class: "form-control" %>
       <% when IssueTemplateAttribute::TYPE_KEY_VALUE %>
         <h5 class="pt-3"><%= I18n.t('template_type_'+defined_attribute.attribute_type.to_s) %></h5>
-        <%= itv.label defined_attribute.field_value rescue "hier is nichts eingetragen" %>
-        <%= itv.text_field :extended_field_value, class: "form-control" %>
+        <%= ctv.label defined_attribute.field_value rescue "hier is nichts eingetragen" %>
+        <%= ctv.text_field :extended_field_value, class: "form-control" %>
       <% when IssueTemplateAttribute::TYPE_CODEBLOCK %>
         <h5 class="pt-3"><%= I18n.t('template_type_'+defined_attribute.attribute_type.to_s) %></h5>
-        <%= itv.label defined_attribute.field_value rescue "hier is nichts eingetragen" %>
-        <%= itv.text_field :extended_field_value, class: "form-control" %>
+        <%= ctv.label defined_attribute.field_value rescue "hier is nichts eingetragen" %>
+        <%= ctv.text_field :extended_field_value, class: "form-control" %>
       <% when IssueTemplateAttribute::TYPE_ORDERED_LIST %>
+        <h5 class="pt-3"><%= I18n.t('template_type_'+defined_attribute.attribute_type.to_s) %></h5>
+          <% defined_attribute.optional_size.times do |index| %>
+            <label for="concrete_issue_template[concrete_template_values_attributes][<%= idx %>][dynamic_size_data][<%= index %>]">Punkt <%= index+1 %></label>
+            <input type="text"
+                   name="concrete_issue_template[concrete_template_values_attributes][<%= idx %>][dynamic_size_data][<%= index %>]"
+                   class="form-control"
+                   value="<%= ctv.object.dynamic_size_data[index.to_s] %>"
+              />
+          <% end %>
       <% when IssueTemplateAttribute::TYPE_UNORDERED_LIST %>
+        <h5 class="pt-3"><%= I18n.t('template_type_'+defined_attribute.attribute_type.to_s) %></h5>
+        <% defined_attribute.optional_size.times do |index| %>
+          <label for="concrete_issue_template[concrete_template_values_attributes][<%= idx %>][dynamic_size_data][<%= index %>]">Punkt <%= index+1 %></label>
+          <input type="text"
+                 name="concrete_issue_template[concrete_template_values_attributes][<%= idx %>][dynamic_size_data][<%= index %>]"
+                 class="form-control"
+                 value="<%= ctv.object.dynamic_size_data[index.to_s] %>"
+            />
+        <% end %>
       <% end %>
     </div>
   <% end %>
