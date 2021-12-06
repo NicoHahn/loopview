@@ -30,7 +30,7 @@
             </div>
             <%= form_for current_user, class: "d-flex flex-column" do |f| %>
               <div class="modal-body">
-                <p>Bitte gib zunächst deinen api token hier ein. Andernfalls wirst du nicht in der Lage sein, mit der JIRA-API zu kommunizieren!</p>
+                <p>Bitte gib zunächst deinen API-Token hier ein. Andernfalls wirst du nicht in der Lage sein, mit der JIRA-API zu kommunizieren!</p>
                 <div class="form-floating">
                   <%= f.text_field :api_key, {class: "form-control", id:"floatingKey", placeholder: "Token"} %>
                   <%= f.label :api_key, "Token" %>

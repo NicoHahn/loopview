@@ -11,7 +11,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.find_by!(email: params[:email])
-    if params[:password] && @user && !@user.passwd_changed
+    if @user && !@user.passwd_changed && params[:password]
       @user.update(password: params[:password], passwd_changed: true)
       session[:user_id] = @user.id
     end

@@ -1,6 +1,6 @@
 class ConcreteIssueTemplatesController < ApplicationController
 
-  before_action :set_concrete_issue_template, only: [:edit, :update, :destroy, :show]
+  before_action :set_concrete_issue_template, only: [:edit, :update, :destroy, :show, :send_to_jira]
 
   def index
     @templates = IssueTemplate.all
@@ -46,7 +46,7 @@ class ConcreteIssueTemplatesController < ApplicationController
   def send_to_jira
     response_body = JiraConnector.send_request(:post, "https://loopview.atlassian.net/rest/api/3/issue", current_user, nil, params[:id])
     ConcreteIssueTemplate.find_by!(id: params[:id]).connect_with_issue(response_body["id"])
-    flash[:success] = "Ticket erfolgreich erstellt!"
+    redirect_to concrete_issue_template_path(id: @concrete_issue_template), success: "Ticket erfolgreich erstellt!"
   end
 
   private
