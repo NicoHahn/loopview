@@ -17,7 +17,7 @@
       <%= label_tag :firstname %>
     </div>
     <div class="form-floating mb-3">
-      <%= text_field_tag :lastname, nil, class: "form-control", id: "floatingLastnmae", placeholder: "lastname"  %>
+      <%= text_field_tag :lastname, nil, class: "form-control", id: "floatingLastname", placeholder: "lastname"  %>
       <%= label_tag :lastname %>
     </div>
     <div class="form-floating mb-3">
@@ -25,14 +25,14 @@
       <%= label_tag :email %>
     </div>
     <div class="form-floating mb-3">
-      <%= password_field_tag :password, nil, class: "fas fa-lock form-control", id: "floatingPassword", placeholder: "password"  %>
+      <%= password_field_tag :password, nil, class: "form-control", id: "floatingPassword", placeholder: "password"  %>
       <%= label_tag :password %>
     </div>
     <div class="form-floating mb-3">
-      <%= password_field_tag :api_key, nil, class: "fas fa-lock form-control", id: "floatingApiKey", placeholder: "api_key"  %>
+      <%= password_field_tag :api_key, nil, class: "form-control", id: "floatingApiKey", placeholder: "api_key"  %>
       <%= label_tag :api_key %>
-      <a href="https://id.atlassian.com/manage/api-tokens" target=”_blank”>Deinen API-Schlüssel kannst du dir hier generieren!</a>
     </div>
-    <%= submit_tag "Speichern", class: "submit_login" %>
+    <a href="https://id.atlassian.com/manage/api-tokens" target=”_blank”>Deinen API-Schlüssel kannst du dir hier generieren!</a>
+    <%= submit_tag "Speichern", class: "submit_login btn btn-info mt-3" %>
   <% end %>
 <% end %>
