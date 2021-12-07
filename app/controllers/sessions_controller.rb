@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
   skip_before_action :authorized, only: [:new, :create]
 
   def new
-    redirect_to(welcome_path) if logged_in?
+    redirect_to('/') if logged_in?
   end
 
   def create
@@ -10,9 +10,9 @@ class SessionsController < ApplicationController
     if @user && @user.authenticate(params[:password]) && @user.passwd_changed
       session[:user_id] = @user.id
       if @user.api_key.blank?
-        redirect_to '/welcome'
+        redirect_to '/'
       else
-        redirect_to projects_path
+        redirect_to '/'
       end
       flash[:success] = "Erfolgreich angemeldet!"
     else
@@ -23,14 +23,11 @@ class SessionsController < ApplicationController
   def destroy
     session.destroy
     redirect_to '/'
+    flash[:success] ="Erfolgreich abgemeldet!"
   end
 
   def login
 
-  end
-
-  def welcome
-    redirect_to projects_path if current_user.api_key.blank?
   end
 
 end

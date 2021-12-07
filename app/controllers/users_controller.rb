@@ -6,16 +6,28 @@ class UsersController < ApplicationController
   end
 
   def new
-    @user = User.new
+    @new_user = User.new
   end
 
   def create
-    @user = User.find_by!(email: params[:email])
-    if @user && !@user.passwd_changed && params[:password]
-      @user.update(password: params[:password], passwd_changed: true)
-      session[:user_id] = @user.id
+    if logged_in?
+      @new_user = User.create(email: params[:email], password: User.generate_password)
+      if @new_user
+        redirect_to '/'
+        flash[:success] = "Nutzerdaten erfolgreich hinterlegt!"
+      else
+        redirect_to '/'
+        flash[:danger] = "Es scheint, als würde bereits ein Nutzer mit dieser E-Mail-Adresse existieren!"
+      end
+    else
+      @new_user = User.find_by!(email: params[:email])
+      if @new_user && !@new_user.passwd_changed && params[:password] && JiraConnector.verify_user(params[:email], params[:api_key])
+        @new_user.update(password: params[:password], passwd_changed: true, api_key: params[:api_key], firstname: params[:firstname], lastname: params[:lastname])
+        session[:user_id] = @new_user.id
+      end
+      redirect_to '/'
+      flash[:success] = "Nutzerdaten aktualisiert!"
     end
-    redirect_to '/welcome'
   end
 
   def edit
