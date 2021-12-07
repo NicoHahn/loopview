@@ -1,6 +1,7 @@
 class Project < ApplicationRecord
 
   has_many :concrete_issue_templates
+  validates :external_key, presence: true
 
   def create_missing_projects(projects)
     projects.each do |p|
