@@ -31,6 +31,7 @@
     <div class="form-floating mb-3">
       <%= password_field_tag :api_key, nil, class: "fas fa-lock form-control", id: "floatingApiKey", placeholder: "api_key"  %>
       <%= label_tag :api_key %>
+      <a href="https://id.atlassian.com/manage/api-tokens" target=”_blank”>Deinen API-Schlüssel kannst du dir hier generieren!</a>
     </div>
     <%= submit_tag "Speichern", class: "submit_login" %>
   <% end %>

@@ -5,11 +5,6 @@ class JiraConnector
   # generate api token:
   # https://id.atlassian.com/manage/api-tokens
 
-  def self.import_current_projects
-    projects_response = send_request(:get, "https://loopview.atlassian.net/rest/api/3/project", current_user)
-    Project.create_missing_projects(projects_response)
-  end
-
   def self.send_request(type, url, user, issue_id=nil, concrete_issue_id=nil)
     case type
     when :get
@@ -102,7 +97,6 @@ class JiraConnector
         attribute.optional_size.times do |idx|
           field_values = field_values.merge({ "type": "listItem", "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": tv.dynamic_size_data[idx.to_s] }] }] })
         end
-
         body_data[:fields][:description][:content] << {
           "type": "heading",
           "attrs": {
