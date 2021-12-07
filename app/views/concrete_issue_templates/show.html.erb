@@ -1,9 +1,17 @@
-<h1>Ticket erstellen</h1>
+<div class="title-container rounded-custom shadow">
+  <h3>Ticket absenden</h3>
+</div>
 
 <%= form_for @concrete_issue_template do |f| %>
   <div class="container rounded-custom shadow">
     <%= label_tag "Titel" %>
-    <%= text_field_tag "", @issue_template.title, class: "form-control", disabled: true %>
+    <%= text_field_tag "", @issue_template.title, class: "form-control title-field mt-3", disabled: true %>
+    <div class="float-end mt-3">
+      <button type="button" class="create_task btn btn-info aj_btn" data-id="<%= f.object.id %>">
+        <i class="fas fa-upload"></i>
+        Erstellen
+      </button>
+    </div>
   </div>
   <% idx = -1 %>
   <%= f.fields_for :concrete_template_values do |ctv| %>
@@ -31,10 +39,5 @@
 
     </div>
   <% end %>
-
-  <button type="button" class="create_task btn btn-info float-end mt-3 aj_btn" data-id="<%= f.object.id %>">
-    <i class="fas fa-upload"></i>
-    Erstellen
-  </button>
 
 <% end %>

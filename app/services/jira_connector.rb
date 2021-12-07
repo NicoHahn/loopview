@@ -96,6 +96,7 @@ class JiraConnector
       when IssueTemplateAttribute::TYPE_ORDERED_LIST
         field_values = {}
         attribute.optional_size.times do |idx|
+          next if tv.dynamic_size_data[idx.to_s].empty?
           field_values = field_values.merge({ "type": "listItem", "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": tv.dynamic_size_data[idx.to_s] }] }] })
         end
         body_data[:fields][:description][:content] << {
@@ -119,6 +120,7 @@ class JiraConnector
       when IssueTemplateAttribute::TYPE_UNORDERED_LIST
         content = []
         attribute.optional_size.times do |idx|
+          next if tv.dynamic_size_data[idx.to_s].empty?
           content << { "type": "listItem", "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": tv.dynamic_size_data[idx.to_s] }] }] }
         end
         body_data[:fields][:description][:content] << {

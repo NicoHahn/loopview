@@ -1,17 +1,19 @@
-<h1>Projekt erstellen</h1>
+<div class="title-container rounded-custom shadow">
+  <h3>Projekt erstellen</h3>
+</div>
 
 <%= form_for @project do |f| %>
 
   <div class="container rounded-custom shadow">
-
-    <%= f.label :title %>
-    <%= f.text_field :external_key, class: "form-control", required: true%>
-
-    <%= button_tag(type: 'submit', class: "btn btn-info float-end mt-3") do %>
-      <span id="loader" class="spinner-border spinner-border-sm" role="status" style="display:none;"></span>
-      <i id="prev_loader" class="fas fa-save"></i>
-      Speichern
-    <% end %>
+    <%= f.label :title, "Projekt-Schlüssel" %>
+    <%= f.text_field :external_key, class: "form-control project-key-field mt-3", required: true %>
+    <div class="float-end mt-3">
+      <%= button_tag(type: 'submit', class: "btn btn-info") do %>
+        <span id="loader" class="spinner-border spinner-border-sm" role="status" style="display:none;"></span>
+        <i id="prev_loader" class="fas fa-save"></i>
+        Speichern
+      <% end %>
+    </div>
   </div>
 
 <% end %>

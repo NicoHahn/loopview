@@ -1,11 +1,21 @@
-<h1>Ticket erstellen</h1>
+<div class="title-container rounded-custom shadow">
+  <h3>Ticket erstellen</h3>
+</div>
+
 
 <%= form_for @concrete_issue_template do |f| %>
   <%= f.hidden_field :project_id, value: params[:project_id] %>
   <%= f.hidden_field :issue_template_id, value: @issue_template.id %>
   <div class="container rounded-custom shadow">
     <%= label_tag "Titel" %>
-    <%= text_field_tag "", @issue_template.title, class: "form-control", disabled: true %>
+    <%= text_field_tag "", @issue_template.title, class: "form-control mt-3 title-field", disabled: true %>
+    <div class="float-end mt-3">
+      <%= button_tag(type: 'submit', class: "btn btn-info") do %>
+        <span id="loader" class="spinner-border spinner-border-sm" role="status" style="display:none;"></span>
+        <i id="prev_loader" class="fas fa-save"></i>
+        Speichern
+      <% end %>
+    </div>
   </div>
   <% idx = -1 %>
   <%= f.fields_for :concrete_template_values do |ctv| %>
@@ -52,12 +62,6 @@
         <% end %>
       <% end %>
     </div>
-  <% end %>
-
-  <%= button_tag(type: 'submit', class: "btn btn-info float-end mt-3") do %>
-    <span id="loader" class="spinner-border spinner-border-sm" role="status" style="display:none;"></span>
-    <i id="prev_loader" class="fas fa-save"></i>
-    Speichern
   <% end %>
 
 <% end %>

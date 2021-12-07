@@ -30,6 +30,15 @@ html, body {
   width: 80% !important;
 }
 
+.title-container {
+  padding-top: 6px;
+  margin: 30px auto;
+  background-color: #96e9ff;
+  width: 15% !important;
+  text-align: center;
+  height: 6%;
+}
+
 .container {
   padding-bottom: 15px;
   margin: 30px auto;
@@ -83,4 +92,29 @@ table#templates-table {
 
 .button-div {
   width: 90% !important;
+}
+
+.title-field {
+  width: 85% !important;
+  display: inline !important;
+}
+
+.project-key-field {
+  width: 80% !important;
+  display: inline !important;
+}
+
+#projects-table_filter {
+  width: 100% !important;
+  border-radius: 5px !important;
+}
+
+div.dataTables_wrapper div.dataTables_filter input {
+  margin-left: 0.5em;
+  display: inline-block;
+  width: auto;
+}
+
+.form-control-sm {
+  padding: 0;
 }
