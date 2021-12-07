@@ -1,9 +1,9 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  external_id: 
-  external_key: MyString
+project_1:
+  external_id: 1000
+  external_key: "TEST_1"
 
-two:
-  external_id: 
-  external_key: MyString
+project_2:
+  external_id: 2000
+  external_key: "TEST_2"
