@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   def create
     if logged_in?
       @new_user = User.create(email: params[:email], password: User.generate_password)
-      if @new_user
+      if @new_user.errors.blank?
         redirect_to '/'
         flash[:success] = "Nutzerdaten erfolgreich hinterlegt!"
       else
@@ -24,9 +24,12 @@ class UsersController < ApplicationController
       if @new_user && !@new_user.passwd_changed && params[:password] && JiraConnector.verify_user(params[:email], params[:api_key])
         @new_user.update(password: params[:password], passwd_changed: true, api_key: params[:api_key], firstname: params[:firstname], lastname: params[:lastname])
         session[:user_id] = @new_user.id
+        redirect_to '/'
+        flash[:success] = "Nutzerdaten aktualisiert!"
+      else
+        redirect_to '/'
+        flash[:warning] = "Die eingegebene Kombination aus E-Mail und API-Schlüssel scheint nicht korrekt zu sein."
       end
-      redirect_to '/'
-      flash[:success] = "Nutzerdaten aktualisiert!"
     end
   end
 

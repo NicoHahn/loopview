@@ -49,12 +49,14 @@
             $('#modal').modal('show', {backdrop: 'static', keyboard: false});
           }
         });
-        $(function() {
-            setTimeout(function(){
-                $('.alert').slideUp(500);
-            }, 1000);
-        });
       </script>
     <% end %>
+  <script type="text/javascript">
+      $(function() {
+          setTimeout(function(){
+              $('.alert').slideUp(500);
+          }, 2500);
+      });
+  </script>
   </body>
 </html>

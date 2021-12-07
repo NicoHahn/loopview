@@ -187,4 +187,14 @@ class JiraConnector
     body_data
   end
 
+  def self.verify_user(email, api_key)
+    url = URI("https://loopview.atlassian.net/rest/api/3/user/search?query=#{email}")
+    https = Net::HTTP.new(url.host, url.port)
+    https.use_ssl = true
+    request = Net::HTTP::Get.new(url)
+    request["Authorization"] = "Basic #{Base64.strict_encode64("#{email}:#{api_key}")}"
+    response = https.request(request)
+    response.code=="200"
+  end
+
 end
