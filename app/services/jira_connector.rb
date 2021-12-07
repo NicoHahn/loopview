@@ -24,8 +24,7 @@ class JiraConnector
       request["Authorization"] = get_authorization_header_value(user)
       request["Content-Type"] = "application/json"
       request.body = data.to_json
-      response = https.request(request)
-      JSON.parse(response.body)
+      https.request(request)
     end
   end
 
@@ -67,15 +66,17 @@ class JiraConnector
       case attribute.attribute_type
       when IssueTemplateAttribute::TYPE_GENERAL_DESCRIPTION, IssueTemplateAttribute::TYPE_TECHNICAL_DESCRIPTION, IssueTemplateAttribute::TYPE_KEY_VALUE
         body_data = set_heading(body_data, attribute)
-        body_data[:fields][:description][:content] << {
-          "type": "paragraph",
-          "content": [
-            {
-              "type": "text",
-              "text": "#{tv.extended_field_value}"
-            }
-          ]
-        }
+        unless tv.extended_field_value.blank?
+          body_data[:fields][:description][:content] << {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "#{tv.extended_field_value}"
+              }
+            ]
+          }
+        end
         body_data = add_line_break(body_data)
       when IssueTemplateAttribute::TYPE_CODEBLOCK
         body_data = set_heading(body_data, attribute)

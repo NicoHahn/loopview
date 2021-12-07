@@ -17,7 +17,7 @@
       <% when IssueTemplateAttribute::TYPE_GENERAL_DESCRIPTION %>
         <h5 class="pt-3"><%= I18n.t('template_type_'+defined_attribute.attribute_type.to_s) %></h5>
         <%= ctv.label defined_attribute.field_value rescue "hier is nichts eingetragen" %>
-        <%= ctv.text_field :extended_field_value, class: "form-control" %>
+        <%= ctv.text_field :extended_field_value, class: "form-control", required: true %>
       <% when IssueTemplateAttribute::TYPE_TECHNICAL_DESCRIPTION %>
         <h5 class="pt-3"><%= I18n.t('template_type_'+defined_attribute.attribute_type.to_s) %></h5>
         <%= ctv.label defined_attribute.field_value rescue "hier is nichts eingetragen" %>
@@ -25,11 +25,11 @@
       <% when IssueTemplateAttribute::TYPE_KEY_VALUE %>
         <h5 class="pt-3"><%= I18n.t('template_type_'+defined_attribute.attribute_type.to_s) %></h5>
         <%= ctv.label defined_attribute.field_value rescue "hier is nichts eingetragen" %>
-        <%= ctv.text_field :extended_field_value, class: "form-control" %>
+        <%= ctv.text_field :extended_field_value, class: "form-control", required: true %>
       <% when IssueTemplateAttribute::TYPE_CODEBLOCK %>
         <h5 class="pt-3"><%= I18n.t('template_type_'+defined_attribute.attribute_type.to_s) %></h5>
         <%= ctv.label defined_attribute.field_value rescue "hier is nichts eingetragen" %>
-        <%= ctv.text_field :extended_field_value, class: "form-control" %>
+        <%= ctv.text_field :extended_field_value, class: "form-control", required: true %>
       <% when IssueTemplateAttribute::TYPE_ORDERED_LIST %>
         <h5 class="pt-3"><%= I18n.t('template_type_'+defined_attribute.attribute_type.to_s) %></h5>
         <% defined_attribute.optional_size.times do |index| %>

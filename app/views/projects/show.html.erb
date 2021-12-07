@@ -19,10 +19,10 @@
           <% end %>
         </td>
         <td>
+          <a class="btn action_btn <%= 'disabled' unless it.concrete_template_existing?(@project) %>" href="<%= concrete_issue_template_path(id: ConcreteIssueTemplate.find_by!(issue_template_id: it.id, project_id: @project.id).id) rescue '' %>">
+            <i class="fas fa-upload"></i>
+          </a>
           <% if it.concrete_template_existing?(@project) %>
-            <%= link_to(concrete_issue_template_path(id: ConcreteIssueTemplate.find_by!(issue_template_id: it.id, project_id: @project.id).id), :class => 'btn action_btn') do %>
-              <i class="fas fa-upload"></i>
-            <% end %>
             <%= link_to(edit_concrete_issue_template_path(id: ConcreteIssueTemplate.find_by!(issue_template_id: it.id, project_id: @project.id).id), :class => 'btn action_btn') do %>
               <i class="fas fa-edit"></i>
             <% end %>
@@ -31,7 +31,7 @@
               <i class="fas fa-list"></i>
             <% end %>
           <% end %>
-          <a class="btn action_btn <%= 'disabled' unless it.created_for_project?(@project) %>" href="<%= concrete_issue_template_path(id: it.id) %>" data-method="delete">
+          <a class="btn action_btn <%= 'disabled' unless it.concrete_template_existing?(@project) && !it.created_for_project?(@project)%>" href="<%= concrete_issue_template_path(id: ConcreteIssueTemplate.find_by!(issue_template_id: it.id, project_id: @project.id).id) rescue '' %>" data-method="delete">
             <i class="fas fa-trash-alt"></i>
           </a>
         </td>

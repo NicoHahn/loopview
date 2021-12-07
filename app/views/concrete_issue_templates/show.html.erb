@@ -12,23 +12,12 @@
       <% defined_attribute = @predefined_attributes.where(id: ctv.object.issue_template_attribute_id).first %>
       <%= ctv.hidden_field :issue_template_attribute_id, value: defined_attribute.id %>
       <% case defined_attribute.attribute_type %>
-      <% when IssueTemplateAttribute::TYPE_GENERAL_DESCRIPTION %>
+      <% when IssueTemplateAttribute::TYPE_GENERAL_DESCRIPTION, IssueTemplateAttribute::TYPE_TECHNICAL_DESCRIPTION,
+        IssueTemplateAttribute::TYPE_KEY_VALUE, IssueTemplateAttribute::TYPE_CODEBLOCK %>
         <h5 class="pt-3"><%= I18n.t('template_type_'+defined_attribute.attribute_type.to_s) %></h5>
         <%= ctv.label defined_attribute.field_value rescue "hier is nichts eingetragen" %>
-        <%= ctv.text_field :extended_field_value, class: "form-control" %>
-      <% when IssueTemplateAttribute::TYPE_TECHNICAL_DESCRIPTION %>
-        <h5 class="pt-3"><%= I18n.t('template_type_'+defined_attribute.attribute_type.to_s) %></h5>
-        <%= ctv.label defined_attribute.field_value rescue "hier is nichts eingetragen" %>
-        <%= ctv.text_field :extended_field_value, class: "form-control" %>
-      <% when IssueTemplateAttribute::TYPE_KEY_VALUE %>
-        <h5 class="pt-3"><%= I18n.t('template_type_'+defined_attribute.attribute_type.to_s) %></h5>
-        <%= ctv.label defined_attribute.field_value rescue "hier is nichts eingetragen" %>
-        <%= ctv.text_field :extended_field_value, class: "form-control" %>
-      <% when IssueTemplateAttribute::TYPE_CODEBLOCK %>
-        <h5 class="pt-3"><%= I18n.t('template_type_'+defined_attribute.attribute_type.to_s) %></h5>
-        <%= ctv.label defined_attribute.field_value rescue "hier is nichts eingetragen" %>
-        <%= ctv.text_field :extended_field_value, class: "form-control" %>
-      <% when IssueTemplateAttribute::TYPE_ORDERED_LIST %>
+        <%= ctv.text_field :extended_field_value, class: "form-control", disabled: true %>
+      <% when IssueTemplateAttribute::TYPE_UNORDERED_LIST, IssueTemplateAttribute::TYPE_ORDERED_LIST %>
         <h5 class="pt-3"><%= I18n.t('template_type_'+defined_attribute.attribute_type.to_s) %></h5>
         <% defined_attribute.optional_size.times do |index| %>
           <label for="concrete_issue_template[concrete_template_values_attributes][<%= idx %>][dynamic_size_data][<%= index %>]">Punkt <%= index+1 %></label>
@@ -36,18 +25,7 @@
                  name="concrete_issue_template[concrete_template_values_attributes][<%= idx %>][dynamic_size_data][<%= index %>]"
                  class="form-control"
                  value="<%= ctv.object.dynamic_size_data[index.to_s] %>"
-            />
-        <% end %>
-      <% when IssueTemplateAttribute::TYPE_UNORDERED_LIST %>
-        <h5 class="pt-3"><%= I18n.t('template_type_'+defined_attribute.attribute_type.to_s) %></h5>
-        <% defined_attribute.optional_size.times do |index| %>
-          <label for="concrete_issue_template[concrete_template_values_attributes][<%= idx %>][dynamic_size_data][<%= index %>]">Punkt <%= index+1 %></label>
-
-          <input type="text"
-                 name="concrete_issue_template[concrete_template_values_attributes][<%= idx %>][dynamic_size_data][<%= index %>]"
-                 class="form-control"
-                 value="<%= ctv.object.dynamic_size_data[index.to_s] %>"
-            />
+                 disabled="true"/>
         <% end %>
       <% end %>
 

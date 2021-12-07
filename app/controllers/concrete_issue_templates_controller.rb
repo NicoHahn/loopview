@@ -41,12 +41,18 @@ class ConcreteIssueTemplatesController < ApplicationController
 
   def destroy
     @concrete_issue_template.destroy!
+    redirect_to projects_path(id: @concrete_issue_template.project_id), success: "Ticket erfolgreich gelöscht!"
   end
 
   def send_to_jira
-    response_body = JiraConnector.send_request(:post, "https://loopview.atlassian.net/rest/api/3/issue", current_user, nil, params[:id])
-    ConcreteIssueTemplate.find_by!(id: params[:id]).connect_with_issue(response_body["id"])
-    redirect_to concrete_issue_template_path(id: @concrete_issue_template), success: "Ticket erfolgreich erstellt!"
+    response = JiraConnector.send_request(:post, "https://loopview.atlassian.net/rest/api/3/issue", current_user, nil, params[:id])
+    if response.code.to_i == 201
+      response_body = JSON.parse(response.body)
+      ConcreteIssueTemplate.find_by!(id: params[:id]).connect_with_issue(response_body["id"])
+      redirect_to concrete_issue_template_path(id: @concrete_issue_template), success: "Ticket erfolgreich erstellt!"
+    else
+      redirect_to concrete_issue_template_path(id: @concrete_issue_template), danger: "Es ist ein Fehler aufgetreten. Das Ticket konnte somit nicht erstellt werden!"
+    end
   end
 
   private
