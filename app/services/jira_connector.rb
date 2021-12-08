@@ -2,10 +2,16 @@ require 'net/http'
 require 'openssl'
 
 class JiraConnector
+
+  # Es wird immer nur ein Prozess zur Zeit gestartet vom rails server
+  # Wenn Prozesse parallelisiert werden würden, dann müsste das über einzelne Instanzen laufen
+  # generischen jira connector der nur zusammen gebaute daten bekommt
+  #   Date Objekt sollte fertig übergeben werden
+
   # generate api token:
   # https://id.atlassian.com/manage/api-tokens
 
-  def self.send_request(type, url, user, issue_id=nil, concrete_issue_id=nil)
+  def self.send_request(type, url, user, issue_id=nil, concrete_issue=nil)
     case type
     when :get
       url = URI(url)
@@ -16,7 +22,7 @@ class JiraConnector
       response = https.request(request)
       JSON.parse(response.body)
     when :post
-      data = build_data(concrete_issue_id)
+      data = build_data(concrete_issue)
       url = URI(url)
       https = Net::HTTP.new(url.host, url.port)
       https.use_ssl = true
@@ -37,12 +43,9 @@ class JiraConnector
     end
   end
 
-  private
-
-  def self.build_data(concrete_issue_id)
-    concrete_issue_template = ConcreteIssueTemplate.find_by(id: concrete_issue_id)
+  def self.build_data(concrete_issue_template)
     issue_template = concrete_issue_template.issue_template
-    project = Project.find_by!(id: concrete_issue_template.project_id)
+    project = concrete_issue_template.project
     template_values = concrete_issue_template.concrete_template_values
     body_data = {
       "fields": {
@@ -62,10 +65,10 @@ class JiraConnector
     }
 
     template_values.each do |tv|
-      attribute = IssueTemplateAttribute.find_by!(id: tv.issue_template_attribute_id)
+      attribute = tv.issue_template_attribute
       case attribute.attribute_type
       when IssueTemplateAttribute::TYPE_GENERAL_DESCRIPTION, IssueTemplateAttribute::TYPE_TECHNICAL_DESCRIPTION, IssueTemplateAttribute::TYPE_KEY_VALUE
-        body_data = set_heading(body_data, attribute)
+        body_data = add_heading(body_data, attribute, [1, 3])
         unless tv.extended_field_value.blank?
           body_data[:fields][:description][:content] << {
             "type": "paragraph",
@@ -79,11 +82,11 @@ class JiraConnector
         end
         body_data = add_line_break(body_data)
       when IssueTemplateAttribute::TYPE_CODEBLOCK
-        body_data = set_heading(body_data, attribute)
+        body_data = add_heading(body_data, attribute, [1, 3])
         body_data[:fields][:description][:content] << {
           "type": "codeBlock",
           "attrs": {
-            "language": "html" # the attribute or the value needs to have an attribute for the language
+            "language": "#{tv.issue_template_attribute.optional_code_language}"
           },
           "content": [
             {
@@ -94,47 +97,27 @@ class JiraConnector
         }
         body_data = add_line_break(body_data)
       when IssueTemplateAttribute::TYPE_ORDERED_LIST
-        field_values = {}
+        content = []
         attribute.optional_size.times do |idx|
           next if tv.dynamic_size_data[idx.to_s].empty?
-          field_values = field_values.merge({ "type": "listItem", "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": tv.dynamic_size_data[idx.to_s] }] }] })
+          content << { "type": "listItem", "content": [{ "type": "paragraph", "content": [
+            { "type": "text", "text": tv.dynamic_size_data[idx.to_s] }] }
+          ] }
         end
-        body_data[:fields][:description][:content] << {
-          "type": "heading",
-          "attrs": {
-            "level": 3
-          },
-          "content": [
-            {
-              "type": "text",
-              "text": "#{attribute.field_value}"
-            }
-          ]
-        }
+        body_data = add_heading(body_data, attribute, [3])
         body_data[:fields][:description][:content] << {
           "type": "orderedList",
-          "content": [
-            field_values
-          ]
+          "content": content
         }
       when IssueTemplateAttribute::TYPE_UNORDERED_LIST
         content = []
         attribute.optional_size.times do |idx|
           next if tv.dynamic_size_data[idx.to_s].empty?
-          content << { "type": "listItem", "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": tv.dynamic_size_data[idx.to_s] }] }] }
+          content << { "type": "listItem", "content": [{ "type": "paragraph", "content": [
+            { "type": "text", "text": tv.dynamic_size_data[idx.to_s] }] }
+          ] }
         end
-        body_data[:fields][:description][:content] << {
-          "type": "heading",
-          "attrs": {
-            "level": 3
-          },
-          "content": [
-            {
-              "type": "text",
-              "text": "#{attribute.field_value}"
-            }
-          ]
-        }
+        body_data = add_heading(body_data, attribute, [3])
         body_data[:fields][:description][:content] << {
           "type": "bulletList",
           "content": content
@@ -144,35 +127,27 @@ class JiraConnector
     body_data
   end
 
+  private
+
   def self.get_authorization_header_value(user)
     "Basic #{Base64.strict_encode64("#{user.email}:#{user.api_key}")}"
   end
 
-  def self.set_heading(body_data, attribute)
-    body_data[:fields][:description][:content] << {
-      "type": "heading",
-        "attrs": {
-            "level": 1
-        },
-        "content": [
-            {
-                "type": "text",
-                "text": I18n.t('template_type_'+attribute.attribute_type.to_s)
-            }
-        ]
-    }
-    body_data[:fields][:description][:content] << {
-      "type": "heading",
-      "attrs": {
-        "level": 3
-      },
-      "content": [
-        {
-          "type": "text",
-          "text": "#{attribute.field_value}"
-        }
-      ]
-    }
+  def self.add_heading(body_data, attribute, levels)
+    levels.each do |l|
+      body_data[:fields][:description][:content] << {
+        "type": "heading",
+          "attrs": {
+              "level": l
+          },
+          "content": [
+              {
+                  "type": "text",
+                  "text": l==1 ? I18n.t('template_type_'+attribute.attribute_type.to_s) : "#{attribute.field_value}"
+              }
+          ]
+      }
+    end
     body_data
   end
 

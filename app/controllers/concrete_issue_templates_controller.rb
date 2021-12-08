@@ -45,7 +45,7 @@ class ConcreteIssueTemplatesController < ApplicationController
   end
 
   def send_to_jira
-    response = JiraConnector.send_request(:post, "https://loopview.atlassian.net/rest/api/3/issue", current_user, nil, params[:id])
+    response = JiraConnector.send_request(:post, "https://loopview.atlassian.net/rest/api/3/issue", current_user, nil, @concrete_issue_template)
     if response.code.to_i == 201
       response_body = JSON.parse(response.body)
       ConcreteIssueTemplate.find_by!(id: params[:id]).connect_with_issue(response_body["id"])

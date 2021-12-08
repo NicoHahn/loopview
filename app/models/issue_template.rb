@@ -4,6 +4,8 @@ class IssueTemplate < ApplicationRecord
   has_many :concrete_issue_templates
   accepts_nested_attributes_for :issue_template_attributes
 
+
+
   # scope -> :assigned_attributes ()
 
 

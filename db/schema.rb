@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_02_210255) do
+ActiveRecord::Schema.define(version: 2021_12_08_155657) do
 
   create_table "concrete_issue_templates", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "issue_template_id"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 2021_12_02_210255) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "optional_size", default: 0
+    t.string "optional_code_language"
     t.index ["issue_template_id"], name: "index_issue_template_attributes_on_issue_template_id"
   end
 
