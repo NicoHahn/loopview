@@ -67,7 +67,9 @@ class JiraConnector
     template_values.each do |tv|
       attribute = tv.issue_template_attribute
       case attribute.attribute_type
-      when IssueTemplateAttribute::TYPE_GENERAL_DESCRIPTION, IssueTemplateAttribute::TYPE_TECHNICAL_DESCRIPTION, IssueTemplateAttribute::TYPE_KEY_VALUE
+      when IssueTemplateAttribute::TYPE_GENERAL_DESCRIPTION,
+           IssueTemplateAttribute::TYPE_TECHNICAL_DESCRIPTION,
+           IssueTemplateAttribute::TYPE_KEY_VALUE
         body_data = add_heading(body_data, attribute, [1, 3])
         unless tv.extended_field_value.blank?
           body_data[:fields][:description][:content] << {
