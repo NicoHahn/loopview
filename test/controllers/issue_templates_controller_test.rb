@@ -27,7 +27,9 @@ class IssueTemplatesControllerTest < ActionDispatch::IntegrationTest
     post issue_templates_path, params: {issue_template: {title: "test_template"}}
     @issue_template = IssueTemplate.last
     assert_equal "test_template", @issue_template.title
-    patch issue_template_path(id: @issue_template.id), params: {issue_template: {title: "test_template_test", issue_template_attributes: ""}}
+    patch issue_template_path(id: @issue_template.id), params: {
+      issue_template: {title: "test_template_test", issue_template_attributes: ""}
+    }
     @issue_template.reload
     assert_equal "test_template_test", @issue_template.title
     post add_attribute_issue_templates_path, params: {id: @issue_template.id, attribute_type: 0}
@@ -35,7 +37,9 @@ class IssueTemplatesControllerTest < ActionDispatch::IntegrationTest
     assert_equal @issue_template, @issue_template_attribute.issue_template
     patch issue_template_path(id: @issue_template.id), params: {
       issue_template: {
-        title: "test_template_test", issue_template_attributes_attributes: [field_value: "test_value", id: @issue_template_attribute.id]
+        title: "test_template_test", issue_template_attributes_attributes: [
+          field_value: "test_value", id: @issue_template_attribute.id
+        ]
       }
     }
     @issue_template_attribute.reload
