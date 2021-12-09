@@ -20,7 +20,7 @@ class UsersController < ApplicationController
         flash[:danger] = "Es scheint, als würde bereits ein Nutzer mit dieser E-Mail-Adresse existieren!"
       end
     else
-      @new_user = User.find_by!(email: params[:email])
+      @new_user = User.find_by(email: params[:email])
       if @new_user && !@new_user.passwd_changed && params[:password] && JiraConnector.verify_user(params[:email], params[:api_key])
         @new_user.update(password: params[:password], passwd_changed: true, api_key: params[:api_key], firstname: params[:firstname], lastname: params[:lastname])
         session[:user_id] = @new_user.id
