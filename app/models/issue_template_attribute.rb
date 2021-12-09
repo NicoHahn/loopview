@@ -1,5 +1,7 @@
 class IssueTemplateAttribute < ApplicationRecord
 
+  belongs_to :issue_template
+
   TYPE_GENERAL_DESCRIPTION = 0
   TYPE_TECHNICAL_DESCRIPTION = 1
   TYPE_UNORDERED_LIST = 2

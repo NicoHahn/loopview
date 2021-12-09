@@ -1,0 +1,4 @@
+issue_template_attribute_1:
+  issue_template: issue_template_1
+  attribute_type: 0
+  field_value: "Test value"

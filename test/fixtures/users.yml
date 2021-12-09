@@ -3,3 +3,9 @@ user_1:
   lastname: "Lastname"
   email: "test@test.com"
   password_digest: "asdf"
+
+user_2:
+  firstname: "Firstname2"
+  lastname: "Lastname2"
+  email: "test@test2.com"
+  password_digest: "asdf2"
