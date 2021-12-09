@@ -22,7 +22,7 @@ class SessionsController < ApplicationController
 
   def destroy
     session.destroy
-    redirect_to '/'
+    redirect_to '/login'
     flash[:success] ="Erfolgreich abgemeldet!"
   end
 
