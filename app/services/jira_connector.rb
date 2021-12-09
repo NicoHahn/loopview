@@ -50,12 +50,12 @@ class JiraConnector
     body_data = {
       "fields": {
         "project": {
-          "key": "#{project.external_key}"
+          "key": project.external_key
         },
         "issuetype": {
           "name": "Task"
         },
-        "summary": "#{issue_template.title}",
+        "summary": issue_template.title,
         "description": {
           "type": "doc",
           "version": 1,
@@ -77,7 +77,7 @@ class JiraConnector
             "content": [
               {
                 "type": "text",
-                "text": "#{tv.extended_field_value}"
+                "text": tv.extended_field_value
               }
             ]
           }
@@ -88,12 +88,12 @@ class JiraConnector
         body_data[:fields][:description][:content] << {
           "type": "codeBlock",
           "attrs": {
-            "language": "#{tv.issue_template_attribute.optional_code_language}"
+            "language": tv.issue_template_attribute.optional_code_language
           },
           "content": [
             {
                 "type": "text",
-                "text": "#{tv.extended_field_value}"
+                "text": tv.extended_field_value
             }
           ]
         }
@@ -145,7 +145,7 @@ class JiraConnector
           "content": [
               {
                   "type": "text",
-                  "text": l==1 ? I18n.t('template_type_'+attribute.attribute_type.to_s) : "#{attribute.field_value}"
+                  "text": l==1 ? I18n.t('template_type_'+attribute.attribute_type.to_s) : attribute.field_value
               }
           ]
       }

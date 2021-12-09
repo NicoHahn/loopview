@@ -2,10 +2,11 @@ user_1:
   firstname: "Firstname"
   lastname: "Lastname"
   email: "test@test.com"
-  password_digest: "asdf"
+  password_digest: <%= BCrypt::Password.create('asdf') %>
+  passwd_changed: true
 
 user_2:
   firstname: "Firstname2"
   lastname: "Lastname2"
   email: "test@test2.com"
-  password_digest: "asdf2"
+  password_digest: <%= BCrypt::Password.create('asdf2') %>
