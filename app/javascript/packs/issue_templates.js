@@ -9,7 +9,7 @@ $(document).on('click', '.add_attribute', function(e){
     } else {
         $.ajax('/issue_templates/add_attribute', {
             method: 'POST',
-            data: {id: id, attribute_id: selected, title: title}
+            data: {id: id, attribute_type: selected, title: title}
         }).done(function(data){
             location.href = data.location;
         })

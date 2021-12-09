@@ -36,8 +36,8 @@ class IssueTemplatesController < ApplicationController
     if params[:id].blank?
       @issue_template = IssueTemplate.create(title: params[:title])
     end
-    IssueTemplateAttribute.create(issue_template_id: @issue_template.id, attribute_type: params[:attribute_id].to_i)
-    render json: {location: "/issue_templates/#{@issue_template.id}/edit"}, success: "Erfolgreich erstellt!"
+    IssueTemplateAttribute.create(issue_template_id: @issue_template.id, attribute_type: params[:attribute_type].to_i)
+    render json: {id: @issue_template.id, location: "/issue_templates/#{@issue_template.id}/edit"}, success: "Erfolgreich erstellt!"
   end
 
   private
